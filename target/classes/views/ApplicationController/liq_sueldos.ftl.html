@@ -1,0 +1,275 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+
+
+<body class="">
+
+<div class="container-fluid">
+	<div class="row main">
+		<div class="col-md-12 sectorTablas">
+			<h3>Buscar:</h3>
+				<form action="/filtroLiqSueldo" method="POST" class="form-horizontal" id="formGastoNew">
+				<div class="col-md-4">
+
+					<div class="form-group">
+						<label class="control-label col-sm-4">Edificio:</label>
+						<div class="col-sm-6">
+							<select name="selectEdif" id="selectEdif" style="width: 200px; height: 30px;">
+								<option value="*">Todos</option>
+								<#list consorcios as cons>
+								<option value="${cons.get_NombreCons()}">${cons.get_NombreCons()}</option>
+								</#list>
+							</select>
+						</div>
+						<div class="col-sm-2"></div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-4">Empleado:</label>
+						<div class="col-sm-6">
+							<select name="selectEmple" id="selectEdif" style="width: 200px; height: 30px;">
+								<option value="*">Todos</option>
+								<#list empleados as emple>
+								<option value="${emple.getApellido_empleado()}">${emple.getNombre_empleado()} ${emple.getApellido_empleado()} </option>
+								</#list>
+							</select>
+						</div>
+						<div class="col-sm-2"></div>
+					</div>
+
+				</div>
+
+				<div class="col-md-4 sectorTablas">
+					<div class="form-group">
+						<label class="control-label col-sm-4">Perído:</label>
+						<div class="col-sm-6">
+							<select name="mes" id="mes" style="width: 125px; height: 30px;">
+								<option value="*">*</option>
+								<option value="01">Enero</option>
+								<option value="02">Febrero</option>
+								<option value="03">Marzo</option>
+								<option value="04">Abril</option>
+								<option value="05">Mayo</option>
+								<option value="06">Junio</option>
+								<option value="07">Julio</option>
+								<option value="08">Agosto</option>
+								<option value="09">Septiembre</option>
+								<option value="10">Octubre</option>
+								<option value="11">Noviembre</option>
+								<option value="12">Diciembre</option>
+							</select>
+							<select name="anio" id="anio" style="width: 70px; height: 30px;">
+								<option value="*">*</option>
+								<option value="2014">2014</option>
+								<option value="2015">2015</option>
+								<option value="2016">2016</option>
+								<option value="2017">2017</option>
+								<option value="2018">2018</option>
+								<option value="2019">2019</option>
+								<option value="2020">2020</option>
+							</select>
+						</div>
+						<div class="col-sm-2"></div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-4">Filtro:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" placeholder="" name="filtro" id="filtro">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-4"></div>
+						<div class="col-sm-6">
+							<button type="submit" class="btn btn-warning">Buscar</button>
+						</div>
+						<div class="col-sm-2"></div>
+					</div>
+				</div>
+
+				</form>
+
+				<div class="col-md-4 sectorTablas">
+					<div class="form-group">
+						<div class="col-sm-2"></div>
+						<div class="col-sm-8">
+							<h4>Filtros:</h4>
+							<dl>
+							<#list filtros as filtro>
+								<dt><span class="glyphicon glyphicon-check"></span> ${filtro}</dt>
+							</#list>
+							</dl>
+						</div>
+						<div class="col-sm-2"></div>
+					</div>
+				</div>
+		</div>
+	</div>
+	<div class="row main">
+
+	<div class="col-md-12 sectorTablas">
+
+			<h3>Liquidaciones: <small class="text-success">Liquidado</small> <small class="text-danger">Sin liquidar</small></h3>
+			<div class="dataTables_scroll">
+			<div style="overflow: auto; width: 100%; max-height: 600px;" class="dataTables_scrollBody">
+			<table class="table table-bordered table-hover" >
+				<tr class="default">
+					<th>Fecha</th>
+					<th>Empleado</th>
+					<th>Edificio</th>
+					<th>Básico</th>
+					<th>Present.</th>
+					<th>Antig.</th>
+					<th>Sac</th>
+					<th>Vac.NG</th>
+					<th>H.Ext.</th>
+					<th>Bruto</th>
+					<th>Jubil.</th>
+					<th>Ob.Soc.</th>
+					<th>ART</th>
+					<th>Imp.Gan.</th>
+					<th>AFIP</th>
+					<th>Suterh</th>
+					<th>Fateryh</th>
+					<th>Seracarh</th>
+					<th>Otros</th>
+					<th>Neto</th>
+					<th><form action="/liqSueldo_new" method="POST"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-plus"></span></button></form></th>
+				</tr>
+				<#list sueldos_sl as sueldoSL>
+				<tr class="danger">
+					<td nowrap>${sueldoSL.getFecha_liq()}</td>
+					<td nowrap>${sueldoSL.getEmpleado()}</td>
+					<td>${sueldoSL.getEdificio()}</td>
+					<td>${sueldoSL.getSueldo_basico()}</td>
+					<td>${sueldoSL.getPresentismo()}</td>
+					<td>${sueldoSL.getAntiguedad()}</td>
+					<td>${sueldoSL.getSac()}</td>
+					<td>${sueldoSL.getVacaciones_ng()}</td>
+					<td>${sueldoSL.getHoras_extras()}</td>
+					<td>${sueldoSL.getTotal_bruto()}</td>
+					<td>${sueldoSL.getJubilacion()}</td>
+					<td>${sueldoSL.getObra_social()}</td>
+					<td>${sueldoSL.getART()}</td>
+					<td>${sueldoSL.getImpuesto_ganancias()}</td>
+					<td>${sueldoSL.getAFIP()}</td>
+					<td>${sueldoSL.getSuterh()}</td>
+					<td>${sueldoSL.getFateryh()}</td>
+					<td>${sueldoSL.getSeracarh()}</td>
+					<td>${sueldoSL.getOtros_Items()}</td>
+					<td>${sueldoSL.getTotal_neto()}</td>
+					<td>
+						<form action="/edit_liqSueldo" method="POST">
+							<input type="hidden" value="${sueldoSL.getId_sueldo_empleado()}" id="id" name="id">
+							<input type="hidden" value="false" id="flag" name="flag">
+							<button type="submit" class="aSalir"><span class="glyphicon glyphicon-edit"></span></button>
+						</form>
+					</td>
+				</tr>
+				</#list>
+				<#list sueldos_liq as sueldo>
+				<tr class="success">
+					<td nowrap>${sueldo.getFecha_liq()}</td>
+					<td nowrap>${sueldo.getEmpleado()}</td>
+					<td>${sueldo.getEdificio()}</td>
+					<td>${sueldo.getSueldo_basico()}</td>
+					<td>${sueldo.getPresentismo()}</td>
+					<td>${sueldo.getAntiguedad()}</td>
+					<td>${sueldo.getSac()}</td>
+					<td>${sueldo.getVacaciones_ng()}</td>
+					<td>${sueldo.getHoras_extras()}</td>
+					<td>${sueldo.getTotal_bruto()}</td>
+					<td>${sueldo.getJubilacion()}</td>
+					<td>${sueldo.getObra_social()}</td>
+					<td>${sueldo.getART()}</td>
+					<td>${sueldo.getImpuesto_ganancias()}</td>
+					<td>${sueldo.getAFIP()}</td>
+					<td>${sueldo.getSuterh()}</td>
+					<td>${sueldo.getFateryh()}</td>
+					<td>${sueldo.getSeracarh()}</td>
+					<td>${sueldo.getOtros_Items()}</td>
+					<td>${sueldo.getTotal_neto()}</td>
+					<td>
+						<form action="/edit_liqSueldo" method="POST">
+							<input type="hidden" value="${sueldo.getId_sueldo_empleado()}" id="id" name="id">
+							<input type="hidden" value="false" id="flag" name="flag">
+							<span class="hint--left" data-hint="LA EDICIÓN ANULARÁ LA LIQUIDACIÓN DE TODO EL PERÍODO">
+								<button type="submit" class="aSalir"><span class="glyphicon glyphicon-edit"></span></button>
+							</span>
+						</form>
+					</td>
+				</tr>
+				</#list>
+
+
+
+			</table>
+			</div>
+			</div> <!-- fin dataTables_scroll -->
+
+		</div>
+
+
+
+	</div>
+</div>
+
+<script>
+
+
+webshims.setOptions('waitReady', false);
+webshims.setOptions('forms-ext', {types: 'date'});
+webshims.polyfill('forms forms-ext');
+
+function valida(e){
+    tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==8){
+        return true;
+    }
+
+    // Patron de entrada, en este caso solo acepta numeros
+    //patron =/[0-9]/; // DE O A 9
+    patron =/[0-9-.]/; // DE 0 A 9 con PUNTO
+    tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+}
+
+
+$('#formGastoNew').submit(function(){
+
+		if($('#facNG').val().length < 1){
+			$('#llenarFac').text("[Ingrese el número de factura]");
+			return false;
+		} else {
+			$('#llenarFac').text("");
+			var a = 1;
+		}
+
+		if($('#detNG').val().length < 1){
+			$('#llenarDet').text("[Ingrese el detalle]");
+			return false;
+		} else {
+			$('#llenarDet').text("");
+			a++;
+		}
+
+		if($('#impNG').val().length < 1){
+			$('#llenarImp').text("[Ingrese el importe]");
+			return false;
+		} else {
+			$('#llenarImp').text("");
+			a++;
+		}
+
+		if ((a == 3) && ($('#selectEdif').val() != "*") && ($('#selectQGG').val() != "*")){
+			alert("Se cargo un nuevo gasto");
+		}
+
+});
+
+</script>
+
+
+</body>
+
+</@layout.myLayout>

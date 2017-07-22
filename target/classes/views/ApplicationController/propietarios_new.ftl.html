@@ -1,0 +1,258 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+
+
+<body class="">
+
+<div class="container main">
+
+	<hr>
+	<#list consorcios as cons>
+	<h4>Ingresar Nuevo Propietario en Edificio: ${cons.get_NombreCons()} </h4><h4 style="color: red;"><strong>${mensaje}</strong></h4>
+	</#list>
+
+	<hr>
+	<div class="row ">
+
+		<form action="/NuevoPropietario" method="POST" class="form-horizontal" id="formPropietarioNew">
+
+		<div class="col-xs-12 col-md-6 sectorTablas">
+		<!-- DATOS DE LA PERSONA -->
+				<div class="form-group">
+					<label class="control-label col-sm-4">Nombre:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Nombre" name="nomNP" id="nomNP">
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Apellido:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Apellido" name="apeNP" id="apeNP">
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Documento:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Documento" name="docNP" id="docNP" onkeypress="return valida(event)">
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Dirección:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Dirección" name="direNP" id="direNP">
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Teléfono:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Teléfono" name="telNP" id="telNP">
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Email:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Email" name="emaNP" id="emaNP">
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+
+		</div>
+
+		<div class="col-xs-12 col-md-6 sectorTablas">
+		<!-- DATOS DEL EDIFICIO -->
+
+				<div class="form-group">
+					<label class="control-label col-sm-4">Número Departamento:</label>
+					<div class="col-sm-6">
+						<#list consorcios as cons>
+
+						<input type="text" value="${minimo}" class="form-control" name="numNP" id="numNP" readonly="">
+
+						</#list>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Unidad:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="1º F" name="uniNP" id="uniNP">
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Nombre Inquilino:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Inquilino" name="inqNP" id="inqNP">
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+
+					<label class="control-label col-sm-4">Expensas %:</label>
+					<div class="col-sm-6">
+					<#list consorcios as consorcio>
+					<input type="text" class="form-control" placeholder="Disponible ${expensas}%" name="expNP" id="expNP" onkeypress="return valida(event)">
+					</#list>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Expensas Extra %:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Disponible ${expensasExtra}%" name="expExtNP" id="expExtNP" onkeypress="return valida(event)">
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+
+		</div>
+
+
+
+				<div class="form-group">
+					<label class="control-label col-sm-2"></label>
+					<div class="col-sm-offset-2 col-sm-4">
+						<#list consorcios as cons>
+						<input type="text" value="${cons.get_NombreCons()}" name="ediNP" id="ediNP" hidden="true">
+						</#list>
+						<button type="submit" class="btn btn-warning" ${expensa}>Cargar</button><br><br>
+					</div>
+				</div>
+
+		</div>
+		</form>
+
+	</div>
+
+</div>
+
+<script>
+function valida(e){
+    tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==8){
+        return true;
+    }
+
+    if (tecla==0) return true;
+
+    // Patron de entrada, en este caso solo acepta numeros
+    //patron =/[0-9]/; // DE O A 9
+    patron =/[0-9-.-9]/; // DE 0 A 9 con PUNTO
+    tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+}
+
+$('#formPropietarioNew').submit(function(){
+
+	alert($("#numNP").val());
+	if($('#nomNP').val() == ""){
+		$("#nomNP").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#nomNP").focus();
+		return false;
+	} else {
+		var a = 1;
+	}
+
+	if($('#apeNP').val() == ""){
+		$("#apeNP").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#apeNP").focus();
+		return false;
+	} else {
+		a++;
+	}
+
+	if($('#docNP').val() == ""){
+		$("#docNP").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#docNP").focus();
+		return false;
+	} else {
+		a++;
+	}
+
+	if($('#direNP').val() == ""){
+		$("#direNP").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#direNP").focus();
+		return false;
+	} else {
+		a++;
+	}
+
+	if($('#telNP').val() == ""){
+		$("#telNP").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#telNP").focus();
+		return false;
+	} else {
+		a++;
+	}
+
+	if($('#emaNP').val() == ""){
+		$("#emaNP").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#emaNP").focus();
+		return false;
+	} else {
+		a++;
+	}
+
+	if(!$.isNumeric($("#numNP").val())){
+		$("#numNP").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#numNP").focus();
+		return false;
+	} else {
+		a++;
+	}
+
+	if($('#uniNP').val() == ""){
+		$("#uniNP").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#uniNP").focus();
+		return false;
+	} else {
+		a++;
+	}
+
+	if($('#expNP').val() == ""){
+		$("#expNP").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#expNP").focus();
+		return false;
+	} else {
+		if(!$.isNumeric($("#expNP").val())){
+			$("#expNP").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#expNP").focus();
+			return false;
+		} else {
+			a++;
+		}
+	}
+
+	if($('#expExtNP').val() == ""){
+		$("#nomNP").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#nomNP").focus();
+		return false;
+	} else {
+		if(!$.isNumeric($("#expExtNP").val())){
+			$("#expExtNP").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#expExtNP").focus();
+			return false;
+		} else {
+			a++;
+		}
+	}
+
+
+	if (a == 10){
+		alert("El propietario ha sido cargado correctamente");
+	}
+
+
+}); ////// FIN FORMULARIO NUEVO PROPIETARIO ///////
+</script>
+
+
+</body>
+
+</@layout.myLayout>

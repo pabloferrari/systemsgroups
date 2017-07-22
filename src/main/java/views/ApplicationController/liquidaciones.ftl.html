@@ -1,0 +1,150 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+
+
+<body class="">
+
+<div class="container-fluid">
+
+	<div class="row main" style="min-height: 600px;">
+
+		<div class="col-md-12">
+
+			<h3> Liquidaciones:</h3>
+			<br/>
+
+			<div class="col-xs-12 col-sm-6">
+				<div class="col-xs-1 col-sm-2"></div>
+				<div class="col-xs-10 col-sm-8 col-md-8 sectorTablas">
+					<#list liquidaciones as liq>
+						<table class="table table-bordered table-hover">
+							<tr class="info">
+								<td align="center"><span class="glyphicon glyphicon-th"></span></td>
+								<td>Edificio: ${liq.getEdificio()}</td>
+								<td align="center"nowrap>
+										<form action="/verLiquidaciones" method="POST">
+											<input type="hidden" id="edificio" name="edificio" value="${liq.getEdificio()}">
+											<button type="submit" class="aSalir"><span class="glyphicon glyphicon-eye-open"></span></button>
+										</form>
+								</td>
+							</tr>
+						</table>
+					</#list>
+				</div>
+				<div class="col-sx-1 col-sm-2"></div>
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<div class="col-xs-1 col-sm-2"></div>
+				<div class="col-xs-10 col-sm-8 col-md-6 sectorTablas">
+					<table class="table table-bordered table-hover">
+
+					<#list liquida as liqMes>
+					<caption>Edificio: ${edificio}</caption>
+						<tr class="warning">
+							<td align="center">
+								<form action="/traerLiquidaciones" method="POST">
+									<input type="hidden" class="" name="edificio" value="${edificio}">
+									<input type="hidden" class="" name="periodo" value="${liqMes.getPeriodo()}">
+									<button type="submit"><span class="glyphicon glyphicon-th"></span></button>
+								</form>
+							</td>
+							<td>Período: ${liqMes.getPeriodo()}</td>
+						</tr>
+
+					</#list>
+					</table>
+				</div>
+				<div class="col-xs-1 col-sm-2"></div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="row main">
+
+		<div class="col-md-12">
+			<table>
+				<tr>
+
+				</tr>
+			<#--	<#list liquiddd as liqq>
+				<tr>
+					<td>${liqq.getId()}</td>
+					<td>${liqq.getPeriodo()}</td>
+					<td>${liqq.getEdificio()}</td>
+					<td>${liqq.getSelectG()}</td>
+					<td>${liqq.getSelectL()}</td>
+					<td>${liqq.getSelectT()}</td>
+					<td>${liqq.getSelectAuxI()}</td>
+					<td>${liqq.getSelectAuxII()}</td>
+					<td>${liqq.getSelectAuxIII()}</td>
+				</tr>
+				</#list> -->
+			</table>
+		</div>
+
+	</div>
+
+</div>
+
+<script>
+
+
+webshims.setOptions('waitReady', false);
+webshims.setOptions('forms-ext', {types: 'date'});
+webshims.polyfill('forms forms-ext');
+
+function valida(e){
+    tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==8){
+        return true;
+    }
+
+    // Patron de entrada, en este caso solo acepta numeros
+    //patron =/[0-9]/; // DE O A 9
+    patron =/[0-9-.]/; // DE 0 A 9 con PUNTO
+    tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+}
+
+$('#formGastoNew').submit(function(){
+
+		if($('#facNG').val().length < 1){
+			$('#llenarFac').text("[Ingrese el número de factura]");
+			return false;
+		} else {
+			$('#llenarFac').text("");
+			var a = 1;
+		}
+
+		if($('#detNG').val().length < 1){
+			$('#llenarDet').text("[Ingrese el detalle]");
+			return false;
+		} else {
+			$('#llenarDet').text("");
+			a++;
+		}
+
+		if($('#impNG').val().length < 1){
+			$('#llenarImp').text("[Ingrese el importe]");
+			return false;
+		} else {
+			$('#llenarImp').text("");
+			a++;
+		}
+
+		if ((a == 3) && ($('#selectEdif').val() != "*") && ($('#selectQGG').val() != "*")){
+			alert("Se cargo un nuevo gasto");
+		}
+
+});
+
+</script>
+
+
+</body>
+
+</@layout.myLayout>

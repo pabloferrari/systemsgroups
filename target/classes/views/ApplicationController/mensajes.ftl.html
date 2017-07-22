@@ -1,0 +1,84 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+
+
+<body>
+
+
+
+<div class="container">
+	<div class="row main" style="min-height: 600px;">
+	<div class="col-md-10 sectorTablas">
+
+			<h3 id="subtitulo">Mensajes recibidos:</h3>
+
+			<table class="table table-bordered table-hover">
+				<tr class="warning">
+					<th>Fecha</th>
+					<th>Nombre</th>
+					<th>Mail</th>
+					<th>Asunto</th>
+					<th>Mensaje</th>
+					<th>Estado</th>
+					<th>Contactar</th>
+				</tr>
+				<#list mensajes as Mensaje>
+				<tr>
+					<td>${Mensaje.getFecha()}</td>
+					<td>${Mensaje.getNombre()}</td>
+					<td>${Mensaje.getEmail()}</td>
+					<td>${Mensaje.getAsunto()}</td>
+					<td>${Mensaje.getMensaje()}</td>
+					<td>
+						<form action=
+							<#if Mensaje.getContactado() == "False">
+							"editarMensaje"
+							<#else>
+							"#"
+							</#if>
+							method="POST" id="">
+							<input type="hidden" class="btn btn-warning" value="${Mensaje.getId()}" name="id" id="id">
+							<#if Mensaje.getContactado() == "False">
+							<input type="submit" class="btn btn-warning" value="Responder" id="enviarMensaje1">
+							<#else>
+							<input type="submit" class="btn btn-success" value="Respondido" id="enviarMensaje2">
+							</#if>
+						</form>
+					</td>
+					<td>
+						<form action="mailto:${Mensaje.email}?subject=Re: ${Mensaje.asunto}" method="GET" enctype="text/plain" id="target">
+						<button type="submit" class="btn btn-info" value="Responder"><span class="glyphicon glyphicon-plus"></span></button>
+						</form>
+					</td>
+
+
+
+				</tr>
+				</#list>
+
+
+			</table>
+
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+$( "#enviarMensaje1" ).click(function() {
+  $( "#target" ).submit();
+});
+
+$( "#enviarMensaje2" ).click(function() {
+  $( "#target" ).submit();
+});
+
+
+
+
+</script>
+
+
+</body>
+
+</@layout.myLayout>

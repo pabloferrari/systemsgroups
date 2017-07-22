@@ -1,0 +1,298 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+
+<body class="">
+
+
+
+<div class="container main">
+
+	<br>
+	<form action="/NuevoMovimiento" method="POST" class="form-horizontal" id="formGastoNew">
+
+	<h4>Nuevo movimiento de caja:</h4>
+	<div class="row ">
+
+		<div class="col-xs-12 col-md-4 sectorTablas">
+				<div class="form-group">
+					<label class="control-label col-sm-6">Fecha:</label>
+					<div class="col-sm-6">
+						<input type="date" class="form-control" placeholder="${fecha}" value=${fecha} name="Cfec" id="Cfec" onfocus="(this.type='date')">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-6">Edificio:</label>
+					<div class="col-sm-6">
+						<select name="selectEdif" id="selectEdif" style="width: 166px; height: 30px;">
+							<option value="*">Seleccione...</option>
+							<#list consorcios as cons>
+							<option value="${cons.get_id()}">${cons.get_NombreCons()}</option>
+							</#list>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-6">Unidad Funcional:</label>
+					<div class="col-sm-6">
+						<input type="number" min="0" class="form-control" value="0" name="Cunid" id="Cunid" onkeypress="return valida(event)">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-6">Movimiento:</label>
+					<div class="col-sm-6">
+						<select name="Cmov" id="Cmov" style="width: 166px; height: 30px;">
+							<option selected="selected" value="ingreso">Ingreso</option>
+							<option value="egreso">Egrego</option>
+						<!--	<option value="*">Liquidacion</option> -->
+						</select>
+					</div>
+				</div>
+
+		</div>
+
+		<div class="col-xs-12 col-md-4 sectorTablas">
+
+				<div class="form-group">
+					<label class="control-label col-sm-6">Importe:</label>
+					<div class="col-sm-6">
+						<input type="text" min="1" class="form-control" placeholder="$ .-" name="Cimp" id="Cimp" onkeypress="return valida(event)">
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-6">Detalle:</label>
+					<div class="col-sm-6">
+						<textarea type="text" class="form-control" placeholder="Detalle" name="Cdet" id="Cdet"></textarea>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-6">Pagador/Cobrador:</label>
+					<div class="col-sm-6">
+						<input type="text"  class="form-control"  name="Cpag" id="Cpag" >
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<div class="control-label col-sm-6"></div>
+					<div class="col-sm-6">
+						<button type="submit" class="btn btn-warning" style="width: 166px;">Cargar</button>
+					</div>
+				</div>
+
+		</div>
+		</form>
+		<div class="col-xs-12 col-md-4 sectorTablas">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div class="dataTables_scroll">
+				<div style="overflow: auto; width: 100%; max-height: 600px;" class="dataTables_scrollBody">
+				<table class="table table-bordered table-hover">
+					<tr class="success" style="align: 'center';">
+						<th>Consorcio</th>
+						<th>Saldo</th>
+					</tr>
+				<#list consorcios as cons>
+					<tr class="success" style="align: 'center';">
+						<td>${cons.get_NombreCons()}</td>
+						<td>$ ${cons.getSaldo()} .-</td>
+					</tr>
+				</#list>
+				</table>
+				</div>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+
+
+
+
+
+	</div>
+
+	<div class="row sectorTablas">
+
+		<div class="col-sm-12">
+			<ul class="nav nav-tabs nav-justified bef-aft btn-group-lg">
+				<li class=""><a id="pestanias" href="#menu1" data-toggle="tab">Ultimos Movimientos</a></li>
+				<li><a id="pestanias" href="#menu3" data-toggle="tab">Todos</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="menu1">
+					<div class="dataTables_scroll">
+					<div style="overflow: auto; width: 100%; max-height: 600px;" class="dataTables_scrollBody">
+						<table class="table table-bordered table-hover">
+									<tr class="warning">
+										<th>Fecha</th>
+										<th>Edificio</th>
+										<th nowrap>Saldo Anterior</th>
+										<th>Importe</th>
+										<th nowrap>Saldo Final</th>
+										<th>Concepto</th>
+										<th nowrap>Unidad Funcional</th>
+										<th nowrap>Pagador</th>
+										<th nowrap>Usuario</th>
+
+									</tr>
+									<#list cajas10 as caja10>
+									<tr>
+										<td>${caja10.getFecha()}</td>
+										<td>${caja10.getConsorcio()}</td>
+										<td nowrap>${caja10.getSaldo_Anterior()}</td>
+										<td><#if (caja10.getSaldo_Anterior() > caja10.getSaldo_Final())>(${caja10.getImporte()})<#else>${caja10.getImporte()}</#if></td>
+										<td nowrap>${caja10.getSaldo_Final()}</td>
+										<td>${caja10.getConsepto()}</td>
+										<td>${caja10.getUnidad_Funcional()}</td>
+										<td>${caja10.getPagador()}</td>
+										<td>${caja10.getUsuario()}</td>
+
+
+									</tr>
+									</#list>
+
+
+						</table>
+					</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="menu3">
+					<div class="dataTables_scroll">
+					<div style="overflow: auto; width: 100%; max-height: 600px;" class="dataTables_scrollBody">
+						<table class="table table-bordered table-hover">
+									<tr class="warning">
+										<th>Fecha</th>
+										<th>Edificio</th>
+										<th nowrap>Saldo Anterior</th>
+										<th>Importe</th>
+										<th nowrap>Saldo Final</th>
+										<th>Concepto</th>
+										<th nowrap>Unidad Funcional</th>
+										<th nowrap>Pagador</th>
+										<th nowrap>Usuario</th>
+									</tr>
+									<#list cajas as caja>
+									<tr>
+										<td>${caja.getFecha()}</td>
+										<td>${caja.getConsorcio()}</td>
+										<td nowrap>${caja.getSaldo_Anterior()}</td>
+										<td><#if (caja.getSaldo_Anterior() > caja.getSaldo_Final())>(${caja.getImporte()})<#else>${caja.getImporte()}</#if></td>
+										<td nowrap>${caja.getSaldo_Final()}</td>
+										<td>${caja.getConsepto()}</td>
+										<td>${caja.getUnidad_Funcional()}</td>
+										<td>${caja.getPagador()}</td>
+										<td>${caja.getUsuario()}</td>
+
+									</tr>
+									</#list>
+
+
+						</table>
+					</div>
+					</div>
+				</div>
+			<br>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+<script>
+
+
+webshims.setOptions('waitReady', false);
+webshims.setOptions('forms-ext', {types: 'date'});
+webshims.polyfill('forms forms-ext');
+
+function valida(e){
+    tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==8){
+        return true;
+    }
+
+    if (tecla==0) return true;
+
+
+    // Patron de entrada, en este caso solo acepta numeros
+    //patron =/[0-9]/; // DE O A 9
+    patron =/[0-9-.]/; // DE 0 A 9 con PUNTO
+    tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+}
+
+$('#formGastoNew').submit(function(){
+
+	if($('#Cfec').val()==""){
+		$("#Cfec").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#Cfec").focus();
+		return false;
+	} else {
+		a++;
+	}
+
+	if($('#selectEdif').val()=="*"){
+		$("#selectEdif").focus();
+		return false;
+	} else {
+		a++;
+	}
+
+	if($('#Cunid').val().length < 1){
+		$("#Cunid").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#Cunid").focus();
+		return false;
+	} else {
+		a++;
+	}
+
+	if($('#Cimp').val().length < 1){
+		$("#Cimp").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#Cimp").focus();
+		return false;
+	} else {
+		if(!$.isNumeric($("#Cimp").val())){
+			$("#Cimp").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#Cimp").focus();
+			return false;
+		} else {
+			a++;
+		}
+	}
+
+	if($('#Cdet').val().length < 1){
+		$("#Cdet").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#Cdet").focus();
+		return false;
+	} else {
+		a++;
+	}
+
+	if($('#Cpag').val().length < 1){
+		$("#Cpag").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#Cpag").focus();
+		return false;
+	} else {
+		a++;
+
+	}
+
+
+
+});
+
+
+
+
+</script>
+
+
+</body>
+
+</@layout.myLayout>

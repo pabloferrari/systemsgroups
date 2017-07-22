@@ -1,0 +1,146 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+
+
+<body class="">
+
+<div class="container main">
+
+	<br>
+	<form action="/NuevoEmpleado" method="POST" class="form-horizontal" id="formEmpleadoNew">
+	<h4>Ingresar Nuevo Empleado:</h4>
+
+				<div class="form-group">
+					<label class="control-label col-sm-4">Edificio:</label>
+					<div class="col-sm-6">
+						<select name="selectEdif" id="selectEdif" style="width: 265px; height: 30px;">
+							<option value="*">Seleccione...</option>
+							<#list consorcios as cons>
+							<option value="${cons.get_NombreCons()}">${cons.get_NombreCons()}</option>
+							</#list>
+						</select>
+					</div>
+				</div>
+
+	<div class="row ">
+
+
+
+		<div class="col-xs-12 col-md-6 sectorTablas">
+		<!-- DATOS DE LA PERSONA -->
+
+				<div class="form-group">
+					<label class="control-label col-sm-4">Nombre:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Nombre" name="nomNE" id="nomNE">
+						<label class="mensajeAlerta" id="llenarNom"></label>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Apellido:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Apellido" name="apeNE" id="apeNE">
+						<label class="mensajeAlerta" id="llenarApe"></label>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Documento:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Documento" name="docNE" id="docNE" onkeypress="return valida(event)">
+						<label class="mensajeAlerta" id="llenarDoc"></label>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">CUIL:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="XX-XXXXXXXX-X" name="cuilNE" id="cuilNE" onkeypress="return valida(event)">
+						<label class="mensajeAlerta" id="llenarCUIL"></label>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+
+		</div>
+
+		<div class="col-xs-12 col-md-6 sectorTablas">
+		<!-- DATOS DEL EDIFICIO -->
+
+				<div class="form-group">
+					<label class="control-label col-sm-4">Teléfono:</label>
+					<div class="col-sm-6">
+						<input type="text" value="" placeholder="Teléfono" class="form-control" name="telNE" id="telNE">
+						<label class="mensajeAlerta" id="llenarTel"></label>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Celular:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Celular" name="celNE" id="celNE">
+						<label class="mensajeAlerta" id="llenarCel"></label>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Email:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Email" name="emaNE" id="emaNE">
+						<label class="mensajeAlerta" id="llenarEma"></label>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Horario:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Media Jornada / Jornada Completa" name="horNE" id="horNE">
+						<label class="mensajeAlerta" id="llenarHor"></label>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2"></label>
+					<div class="col-sm-offset-2 col-sm-4">
+
+						<button type="submit" class="btn btn-warning">Cargar</button><br><br>
+					</div>
+				</div>
+
+
+		</div>
+
+
+
+
+
+
+		</form>
+	</div>
+
+</div>
+
+<script>
+function valida(e){
+    tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==8){
+        return true;
+    }
+    
+    if (tecla==0) return true;
+    
+
+    // Patron de entrada, en este caso solo acepta numeros
+    //patron =/[0-9]/; // DE O A 9
+    patron =/[0-9-.-]/; // DE 0 A 9 con PUNTO
+    tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+}
+</script>
+
+
+</body>
+
+</@layout.myLayout>

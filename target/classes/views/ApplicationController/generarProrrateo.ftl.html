@@ -1,0 +1,119 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+
+
+<body class="">
+
+<div class="container main" style="min-height: 600px;">
+
+	<br>
+	<form action="/NuevoProrrateo" method="POST" class="form-horizontal" id="formGastoNew">
+
+		<input type="hidden" name="id" id="id" value="${id}">
+		<input type="hidden" name="edificio" id="edificio" value="${edificio}">
+		<input type="hidden" name="periodo" id="periodo" value="${fecha}">
+
+		<button type="submit" class="btn btn-warning">GENERAR PRORRATEO: CONSORCIO: ${edificio} | Período: ${fecha}</button>
+
+
+	</form>
+
+</div>
+
+
+
+
+<script>
+
+
+webshims.setOptions('waitReady', false);
+webshims.setOptions('forms-ext', {types: 'date'});
+webshims.polyfill('forms forms-ext');
+
+function valida(e){
+    tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==8){
+        return true;
+    }
+
+    if (tecla==0) return true;
+
+
+    // Patron de entrada, en este caso solo acepta numeros
+    //patron =/[0-9]/; // DE O A 9
+    patron =/[0-9-.]/; // DE 0 A 9 con PUNTO
+    tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+}
+
+$('#formGastoNew').submit(function(){
+
+	if($('#Cfec').val()==""){
+		$("#Cfec").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#Cfec").focus();
+		return false;
+	} else {
+		a++;
+	}
+
+	if($('#selectEdif').val()=="*"){
+		$("#selectEdif").focus();
+		return false;
+	} else {
+		a++;
+	}
+
+	if($('#Cunid').val().length < 1){
+		$("#Cunid").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#Cunid").focus();
+		return false;
+	} else {
+		a++;
+	}
+
+	if($('#Cimp').val().length < 1){
+		$("#Cimp").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#Cimp").focus();
+		return false;
+	} else {
+		if(!$.isNumeric($("#Cimp").val())){
+			$("#Cimp").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#Cimp").focus();
+			return false;
+		} else {
+			a++;
+		}
+	}
+
+	if($('#Cdet').val().length < 1){
+		$("#Cdet").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#Cdet").focus();
+		return false;
+	} else {
+		a++;
+	}
+
+	if($('#Cpag').val().length < 1){
+		$("#Cpag").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#Cpag").focus();
+		return false;
+	} else {
+		a++;
+
+	}
+
+
+
+});
+
+
+
+
+</script>
+
+
+</body>
+
+</@layout.myLayout>

@@ -1,0 +1,141 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+
+
+<body class="">
+
+<div class="container-fluid">
+	<div class="row main">
+		<div class="col-xs-12 sectorTablas" style="height: 600px;">
+			<h3>Generar Liquidación de Expensas:</h3>
+			<form action="/liquidacion_new" method="POST" class="form-horizontal" id="liquidacion">
+
+
+				<div class="col-xs-12  sectorTablas">
+
+					<div class="form-group">
+						<label class="control-label col-sm-4">Edificio:</label>
+						<div class="col-sm-8">
+							<select name="selectEdif" id="selectEdif" style="width: 200px; height: 30px;">
+								<option value="*">Seleccione...</option>
+								<#list consorcios as cons>
+								<option value="${cons.get_id()}">${cons.get_NombreCons()}</option>
+								</#list>
+							</select>
+						</div>
+					</div>
+
+				</div>
+
+
+				<div class="col-xs-12 sectorTablas">
+
+					<div class="form-group">
+			                  <label class="control-label col-sm-4">Perído:</label>
+			                  <div class="col-sm-8">
+			                        <select name="mes" id="mes" style="width: 130px; height: 30px;">
+			                              <option ${ene} value="01">Enero</option>
+								<option ${feb} value="02">Febrero</option>
+								<option ${mar} value="03">Marzo</option>
+								<option ${abr} value="04">Abril</option>
+								<option ${may} value="05">Mayo</option>
+								<option ${jun} value="06">Junio</option>
+								<option ${jul} value="07">Julio</option>
+								<option ${ago} value="08">Agosto</option>
+								<option ${sep} value="09">Septiembre</option>
+								<option ${oct} value="10">Octubre</option>
+								<option ${nov} value="11">Noviembre</option>
+								<option ${dic} value="12">Diciembre</option>
+			                        </select>
+			                        <select name="anio" id="anio" style="width: 67px; height: 30px;">
+			                              <option selected="selected" value="2016">2016</option>
+			                              <option value="2017">2017</option>
+			                              <option value="2018">2018</option>
+			                              <option value="2019">2019</option>
+			                              <option value="2020">2020</option>
+			                        </select>
+			                  </div>
+			            </div>
+
+		            </div>
+
+				<div class="col-xs-12 sectorTablas">
+
+					<div class="form-group">
+						<label class="control-label col-sm-4"></label>
+						<div class="col-sm-8 sectorTablas">
+				      		<button type="submit" class="btn btn-info" style="width: 200px;">Generar Liquidación</button><br><br>
+				      	</div>
+				      </div>
+
+			      </div>
+
+			</form>
+		</div>
+
+
+
+
+
+
+
+		</div>
+	</div>
+
+</div>
+
+<script>
+
+
+webshims.setOptions('waitReady', false);
+webshims.setOptions('forms-ext', {types: 'date'});
+webshims.polyfill('forms forms-ext');
+
+function valida(e){
+    tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==8){
+        return true;
+    }
+
+    // Patron de entrada, en este caso solo acepta numeros
+    //patron =/[0-9]/; // DE O A 9
+    patron =/[0-9-.]/; // DE 0 A 9 con PUNTO
+    tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+}
+
+$('#liquidacion').submit(function(){
+
+		if($('#selectEdif').val() == "*"){
+			$("#selectEdif").focus();
+			/*
+			$("#selectEdif").css({
+				'background-color': 'rgb(248, 248, 248)',
+				'border-image-source': 'initial',
+				'border-image-slice': 'initial',
+				'border-image-width': 'initial',
+				'border-image-outset': 'initial',
+				'border-image-repeat': 'initial',
+				'border-width': '1px',
+				'border-radius': '5px',
+				'border-style': 'solid',
+				'border-color': 'red',
+			      'box-shadow':'0 0 6px #f8b9b7'});
+			*/
+			//$("#selectEdif").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			return false;
+		} else {
+			var a = 1;
+		}
+
+
+});
+
+</script>
+
+
+</body>
+
+</@layout.myLayout>

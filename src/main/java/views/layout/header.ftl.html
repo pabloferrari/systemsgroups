@@ -1,0 +1,116 @@
+<header>
+
+	<nav class="navbar navbar-default navbar-fixed-top header">
+		<div class="container-fluid">
+			<div class="btn-group barra_nav" role="group" aria-label="...">
+
+			<!-- HOME -->
+
+			  <div class="btn-group" role="group">
+			  	<form action="/home" method="POST">
+			    <button  class="dropdown-toggle btn btn-success" data-toggle=""><span class="glyphicon glyphicon-home"></span></button>
+				</form>
+			  </div>
+			  <!-- CLIENTES -->
+			  <div class="btn-group" role="group">
+			    <button  class="dropdown-toggle btn btn-success" data-toggle="dropdown"> Clientes </b></button>
+			    <ul class="dropdown-menu">
+					<li><form action="/consorcios" method="POST"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-list"></span> Ir a Consorcios</button></form></li>
+	                <li><form action="/propietarios" method="POST"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-list"></span> Ir a Propietarios</button></form></li>
+	                <li><form action="/empleados" method="POST"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-list"></span> Ir a Empleados</button></form></li>
+			    </ul>
+			  </div>
+			  <!-- CAJA -->
+			  <div class="btn-group" role="group">
+			    <button  class="dropdown-toggle btn btn-success" data-toggle="dropdown"> Caja </b></button>
+			    <ul class="dropdown-menu">
+					<li><form action=<#if categoria=="C">"#"<#else>"/caja"</#if> method="POST"><button type="submit" class="aSalir" <#if categoria=="C">style="text-decoration:line-through; color:red;" disabled</#if>><span class="glyphicon glyphicon-list"></span> Ir a Caja</button></form></li>
+					<li><form action=<#if categoria=="C">"#"<#else>"/movimientos"</#if> method="POST"><button type="submit" class="aSalir" <#if categoria=="C">style="text-decoration:line-through; color:red;" disabled</#if>><span class="glyphicon glyphicon-list"></span> Ir a Movimientos</button></form></li>
+					<li><form action=<#if categoria=="C">"#"<#else>"/saldos"</#if> method="POST"><button type="submit" class="aSalir" <#if categoria=="C">style="text-decoration:line-through; color:red;" disabled</#if>><span class="glyphicon glyphicon-list"></span> Ir a Saldos</button></form></li>
+			    </ul>
+			  </div>
+			  <!-- PROVEEDORES -->
+			  <div class="btn-group" role="group">
+			    <button  class="dropdown-toggle btn btn-success" data-toggle="dropdown"> Proveedores </b></button>
+			    <ul class="dropdown-menu">
+					<li><form action="/proveedores" method="POST"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-list"></span> Ir Proveedores</button></form></li>
+		            <li><form action="/proveedores_new" method="POST"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-plus"></span> Nuevo Proveedor</button></form></li>
+			    </ul>
+			  </div>
+			  <!-- GASTOS -->
+			  <div class="btn-group" role="group">
+			    <button  class="dropdown-toggle btn btn-success" data-toggle="dropdown"> Gastos </b></button>
+			    <ul class="dropdown-menu">
+			    		<li><form action="/gastos_res" method="POST"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-list"></span> Ver Gastos</button></form></li>
+					<li><form action="/gastos" method="POST"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-list"></span> Todos los Gastos</button></form></li>
+					<li><form action="/gastos_new" method="POST"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-plus"></span> Nuevo Gasto</button></form></li>
+
+		        </ul>
+			  </div>
+			  <!-- LIQUIDACIONES -->
+			  <div class="btn-group" role="group">
+			    <button  class="dropdown-toggle btn btn-success" data-toggle="dropdown"> Liquidaciones </b></button>
+			    <ul class="dropdown-menu">
+					<li><form action="/liqSueldo" method="POST"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-list"></span> Ir a Liq Sueldos</button></form></li>
+					<li><form action="/liquidaciones" method="POST"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-list"></span> Ir a Liq Expensas</button></form></li>
+					<li><form action="/prorrateos" method="POST"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-list"></span> Ir a Prorrateos</button></form></li>
+		            <li><form action="/liqSueldo_new" method="POST"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-plus"></span> Nueva Liq Sueldo</button></form></li>
+		            <li><form action="/liquidacion" method="POST"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-plus"></span> Nueva Liq Expensa</button></form></li>
+			    </ul>
+			  </div>
+			  <!-- SOLICITUDES -->
+			  <!--
+			  <div class="btn-group" role="group">
+			    <button  class="dropdown-toggle btn btn-success" data-toggle="dropdown"> Solicitudes </b></button>
+			    <ul class="dropdown-menu">
+					<li><form action="#" method="POST"><button type="submit" class="aSalir"> Reparacion/Mentenimiento</button></form></li>
+	                </ul>
+			  </div>
+			  -->
+			  <!-- MENSAJES -->
+			  <div class="btn-group" role="group">
+			    <button  class="dropdown-toggle btn btn-success" data-toggle="dropdown"> Mensajes </b></button>
+			    <ul class="dropdown-menu">
+					<li><form action="/mensajes" method="POST"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-list"></span> Mensajes</button></form></li>
+			    </ul>
+			  </div>
+			  <!-- CONFIGURACIÓN -->
+			  <div class="btn-group" role="group">
+			    <button  class="dropdown-toggle btn btn-success" data-toggle="dropdown"> Configuración </b></button>
+			    <ul class="dropdown-menu">
+					<li>
+						<form action=<#if categoria=="C">"#"<#else>"/usuarios"</#if> method="POST"><button type="submit" class="aSalir"
+							<#if categoria=="C">style="text-decoration:line-through; color:red;" disabled</#if>
+							><span class="glyphicon glyphicon-list"></span> Ir a Usuarios</button></form>
+					</li>
+					<li>
+						<form action=
+						<#if categoria=="C">#<#else>"/subtipo_gastos"</#if>
+						method="POST"><button type="submit" class="aSalir" <#if categoria=="C">style="text-decoration:line-through; color:red;" disabled</#if>><span class="glyphicon glyphicon-list"></span> Ir a SubTipo Gastos</button></form>
+					</li>
+			    </ul>
+			  </div>
+
+			</div>
+			<div class="navbar-collapse collapse navbar-right">
+				<ul class="nav navbar-nav">
+					<div class="navbar-form navbar-right">
+						<li class="dropdown">
+						<button  class="dropdown-toggle btn btn-danger" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>  <i>@${usuario}</i> <b class="caret"></b></button>
+						<ul class="dropdown-menu ">
+						<li><form action="/home" method="POST"><button type="submit" class="aSalir btn-group-justified"><span class="glyphicon glyphicon-home"></span> Volver a Home</button></form></li>
+						</li>
+						<li><form action="/volverHome" method="POST"><button type="submit" class="aSalir btn-group-justified"><span class="glyphicon glyphicon-log-out"></span> Cerrar sesión</button></form></li>
+						</ul>
+						</li>
+					</div>
+				</ul>
+			</div>
+
+
+		</div>
+	</nav>
+	<script src="http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js"></script>
+	<script src="http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js"></script>
+
+ </header>

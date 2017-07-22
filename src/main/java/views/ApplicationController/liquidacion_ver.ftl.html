@@ -1,0 +1,719 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+
+
+<head>
+	<#list consorcios as cons>
+	<script type="text/javascript">
+	function tableToJson(table) {
+
+			var data = [];
+
+			// first row needs to be headers
+			var headers = [];
+			for (var i=0; i<table.rows[0].cells.length; i++) {
+				headers[i] = table.rows[0].cells[i].innerHTML.toLowerCase().replace(/ /gi,'');
+			}
+			data.push(headers);
+
+			// go through cells
+			for (var i=1; i<table.rows.length; i++) {
+
+				var tableRow = table.rows[i];
+				var rowData = {};
+
+				for (var j=0; j<tableRow.cells.length; j++) {
+
+					rowData[ headers[j] ] = tableRow.cells[j].innerHTML;
+
+				}
+
+				data.push(rowData);
+			}
+
+			return data;
+		}
+
+		function callme(){
+
+			var table = tableToJson($('#table-id').get(0));
+			var doc = new jsPDF('l','pt','letter',true);
+
+			var importe_total = 0;
+			var flagt = false;
+
+			doc.setFillColor(140, 136, 138);
+			doc.rect(5, 10, 900, 35, 'F');
+			doc.setTextColor(255,255,255);
+			doc.setFontSize(15);
+			doc.text(350, 25, "MIS EXPENSAS");
+			doc.text(300, 40, "LiquidaciÃ³n de mes: ${mes} ${anio}");
+
+			var datos_inmo = 'ADMINISTRACIÃ“N\nNombre: ADM. SAN LUIS & ASOCIADOS.\nDomicilio: SARANDI 407 PB C1081ACI CABA\nMail: adm.sanluis.asoc@gmail.com\nCUIT: 27-13846212-4\nInscripciÃ³n R.P.A.: 7806							  SituaciÃ³n Fiscal: MONOTRIBUTO\nTelefono: 4941-2482 15-5937-9438					CONSORCIO: Nombre: ${cons.get_NombreCons()} | DirecciÃ³n: ${cons.get_DireccionCons()} | CUIT: ${cons.getCUIT()} | Clave SUTERH: ${cons.getClave_Suterh()}';
+			doc.setTextColor(0,0,0);
+			doc.setFontSize(8);
+			doc.text(30, 55, datos_inmo);
+
+			/*
+			datos_empleado
+			*/
+			doc.setLineWidth(1);
+			doc.line(10, 120, 900, 120);
+
+			doc.setTextColor(0,0,0);
+
+			$.each(table, function(i, row){
+
+				$.each(row, function(j,cell){
+
+					doc.setFontSize(8);
+
+					switch(j){
+
+						case 0:
+							// COLUMNA UNI
+							doc.setFontType("bold");
+							doc.cell(25,125,30,15,cell,i);
+							break;
+						case 1:
+							// DTO
+							doc.cell(25,125,500,15,"Detalle Sueldos y Cargas Sociales",i);
+							break;
+
+						case 2:
+							// PROPIETARIO
+							doc.cell(25,125,50,15,"Gastos A",i);
+							break;
+						case 3:
+							// ANTERIOR
+							doc.cell(25,125,50,15,"Gastos B",i);
+							break;
+						case 4:
+							// PAGO
+							doc.cell(25,125,50,15,"Gastos C",i);
+							break;
+						case 5:
+							// PEND
+							doc.cell(25,125,50,15,"Total",i);
+							break;
+						case 6:
+						case "":
+							// ID GASTO
+							break;
+
+						case "1":
+							doc.setFontType("normal");
+							if(cell == ""){
+								doc.cell(25,125,30,15,"    ",i);
+							} else {
+								doc.setFontType("bold");
+								doc.cell(25,125,30,15,cell,i);
+								doc.setFontType("normal");
+							}
+							break;
+
+						case "detalledesueldoycargassociales":
+							doc.cell(25,125,500,15,cell,i);
+							if(cell.substr(0,11)=="Total Rubro"){
+								flagt = true;
+							} // Total Rubro
+							break;
+						case "gastosa":
+						case "gastosb":
+						case "gastosc":
+							// UNI
+							if(cell == ""){
+								doc.cell(25,125,50,15,"    ",i);
+							} else {
+								doc.cell(25,125,50,15,cell,i);
+							}
+							break;
+						case "total":
+							doc.setFontType("bold");
+							if(cell == ""){
+								doc.cell(25,125,50,15,"    ",i);
+							} else {
+								doc.cell(25,125,50,15,cell,i);
+								if(flagt==true){
+									var importe = cell.replace(",", ".");
+									importe_total = importe_total + parseFloat(importe);
+									flagt = false;
+								}
+							}
+							doc.setFontType("normal");
+							break;
+						default:
+							if(cell == ""){
+								doc.cell(25,125,50,15,"    ",i);
+							} else {
+								doc.cell(25,125,50,15,cell,i);
+							}
+							break;
+
+					}
+
+					// cell(ubi X, uni Y, ANCHO CELDA , ALTO CELDA,cell,i);
+
+				});
+			});
+
+			/*
+			//doc.cell(25,125,50,15,importe_total,i);
+			doc.setFontType("bold");
+			doc.setFontSize(12);
+			doc.text(600, 600, "Total: $ "+importe_total+".-");
+
+			//doc.addPage();
+			// NUEVA PAGINA
+
+			doc.setFillColor(140, 136, 138);
+			doc.rect(5, 10, 900, 20, 'F');
+			doc.setTextColor(255,255,255);
+			doc.setFontSize(15);
+			doc.setFontType("normal");
+			doc.text(350, 25, "RESUMEN DE CAJA");
+*/
+			var table2 = tableToJson($('#table-id2').get(0));
+			doc.addPage();
+			doc.setTextColor(0,0,0);
+
+			$.each(table2, function(i, row){
+
+				$.each(row, function(j,cell){
+
+					switch(j){
+						case 0:
+							doc.cell(25,25,70,15,"Fecha",i);
+							break;
+						case 1:
+							doc.cell(25,25,70,15,"Saldo Anterior",i);
+							break;
+						case 2:
+							doc.cell(25,25,70,15,"SU PAGO",i);
+							break;
+						case 3:
+							doc.cell(25,25,70,15,"Saldo Final",i);
+							break;
+						case 4:
+							doc.cell(25,25,170,15,"Concepto",i);
+							break;
+						case 5:
+							doc.cell(25,25,70,15,"Unidad Funcional",i);
+							break;
+						case 6:
+							doc.cell(25,25,120,15,"Pagador",i);
+							break;
+						case 7:
+							doc.cell(25,25,80,15,"Usuario",i);
+							break;
+						case "fecha":
+							doc.cell(25,25,70,15,cell,i);
+							break;
+						case "saldoanterior":
+						case "saldofinal":
+						case "importe":
+						case "unidadfuncional":
+							doc.cell(25,25,70,15,cell,i);
+							break;
+						case "concepto":
+							doc.cell(25,25,170,15,cell,i);
+							break;
+						case "pagador":
+							doc.cell(25,25,120,15,cell,i);
+							break;
+						case "usuario":
+							doc.cell(25,25,80,15,cell,i);
+							break;
+
+						default:
+							doc.cell(25,25,50,15,cell,i);
+							alert(j);
+							break;
+
+					}
+
+					// cell(ubi X, uni Y, ANCHO CELDA , ALTO CELDA,cell,i);
+
+				});
+			});
+
+			doc.save('LiquidacionExp.pdf');
+		}
+
+	</script>
+	</#list>
+</head>
+
+<body class="">
+
+<div class="container-fluid">
+	<div class="row main">
+		<br>
+		<div class="col-sm-12">
+			<a href="javascript:callme()"  id="exportpdf" class="generaPDF btn btn-success">Download PDF</a>
+			<br><br>
+			<form action="/verLiquidaciones" method="POST">
+				<input type="hidden" id="edificio" name="edificio" value="${edificio}">
+				<button type="submit" class="btn btn-info" style="width: 120px; height: 33px;">Volver</button>
+			</form>
+
+
+		</div>
+	</div>
+
+	<div class="row main">
+		<div class="col-xs-12 sectorTablas">
+			<br>
+			<div class="exp_encabesado" id="exp_encabesado">
+				<h4>MIS EXPENSAS</h4>
+				<h4>LiquidaciÃ³n de mes: ${mes} ${anio} </h4>
+			</div>
+
+			<div class="row exp_datosAdm" id="datos_del_prorrateo">
+				<div class="col-xs-12 col-sm-4">
+					<p>
+						ADMINISTRACIÃ“N<br/>
+						Nombre: ADM. SAN LUIS & ASOCIADOS.<br/>
+						Domicilio: SARANDI 407 PB C1081ACI CABA<br/>
+						Mail: adm.sanluis.asoc@gmail.com<br/>
+						CUIT: 27-13846212-4<br/>
+						InscripciÃ³n R.P.A.: 7806
+					</p>
+				</div>
+				<div class="col-xs-12 col-sm-4">
+					<p>
+						Telefono: 4941-2482 15-5937-9438<br/>
+						SituaciÃ³n Fiscal: MONOTRIBUTO
+					</p>
+				</div>
+				<div class="col-xs-12 col-sm-4">
+					<p>
+					<#list consorcios as cons>
+						CONSORCIO<br/>
+						Nombre: ${cons.get_NombreCons()}<br/>
+						DirecciÃ³n: ${cons.get_DireccionCons()}<br/>
+
+						CUIT: ${cons.getCUIT()}<br/>
+						Clave SUTERH: ${cons.getClave_Suterh()}
+					</#list>
+					</p>
+				</div>
+			</div>
+
+			<div class="exp_subtitulos">
+				<h5>REMUNERACIONES AL PERSONAL Y CARGAS SOCIALES</h5>
+			</div>
+			<div class="row exp_datosAdm" id="datos_empleado">
+				<div class="col-xs-1 col-sm-1"></div>
+				<#list empl as emple>
+				<div class="col-xs-5 col-sm-4">
+					<p>
+						<small>(Conf. Art. 10 inc. d Ley NÂº 941)</small><br/>
+						Nombre y apellido: ${emple.getNombre_empleado()} ${emple.getApellido_empleado()}<br/>
+						CUIL: ${emple.getCUIL_empleado()}<br/>
+						PerÃ­odo: ${mes} ${anio}<br/>
+
+					</p>
+				</div>
+				</#list>
+				<div class="col-xs-1 col-sm-1"></div>
+			</div>
+
+			<div class="col-xs-10 sectorTablas">
+
+					<table class="table table-bordered table-hover" id="table-id">
+						<!-- SUBTIPO 1 - DETALLE DE SUELDO Y CARGAS SOCIALES -->
+						<tr class="">
+							<th class="subtipo">${st1_nu}</th>
+							<th>${st1_no}</th>
+							<th nowrap  class="subtipo">Gastos A</th>
+							<th nowrap  class="subtipo">Gastos B</th>
+							<th nowrap  class="subtipo">Gastos C</th>
+							<th  class="subtipo">Total</th>
+							<th></th>
+						</tr>
+						<#list liqS as liq>
+						<tr class="">
+							<td></td>
+							<td>Basico $ ${liq.getSueldo_basico()}.-</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td>Presentismo $ ${liq.getPresentismo()}.-</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td>Antiguedad $ ${liq.getAntiguedad()}.-</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td>SAC $ ${liq.getSac()}.- ${mes} ${anio}</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td>Vacaciones No Gozadas $ ${liq.getVacaciones_ng()}.-</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td>Horas Extras $ ${liq.getHoras_extras()}.-</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td align="center">Total Neto</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getTotal_neto()}.-</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getTotal_neto()}.-</td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td class="subtotal">Subtotal</td>
+							<td class="subtotal"></td> <!-- SUBTOTAL A -->
+							<td nowrap class="subtotal">$ ${liq.getTotal_neto()}.-</td>
+							<td nowrap class="subtotal"></td>
+							<td nowrap class="subtotal">$ ${liq.getTotal_neto()}.-</td>
+							<td></td>
+						</tr>
+						<tr class="">
+
+						</tr>
+						<tr class="">
+							<td></td>
+							<th>Aportes y Contribuciones</th>
+							<td class="importe"></td>
+							<td class="importe"></td>
+							<td class="importe"></td>
+							<td class="importe"></td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td>JubilaciÃ³n 11% - PerÃ­odo ${mes} ${anio}</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getJubilacion()}.-</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getJubilacion()}.-</td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td>Obra Social 3% - PerÃ­odo ${mes} ${anio}</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getObra_social()}.-</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getObra_social()}.-</td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td>ART - CCT 589/10</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getART()}.-</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getART()}.-</td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td>Impuesto Ganancias - PerÃ­odo ${mes} ${anio}</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getImpuesto_ganancias()}.-</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getImpuesto_ganancias()}.-</td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td>AFIP F931 - PerÃ­odo ${mes} ${anio}</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getAFIP()}.-</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getAFIP()}.-</td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td>Suterh - PerÃ­odo ${mes} ${anio}</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getSuterh()}.-</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getSuterh()}.-</td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td>Fateryh - PerÃ­odo ${mes} ${anio}</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getFateryh()}.-</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getFateryh()}.-</td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td>Seracarh - PerÃ­odo ${mes} ${anio}</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getSeracarh()}.-</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getSeracarh()}.-</td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td>Otros Descuentos - PerÃ­odo ${mes} ${anio}</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getOtros_Items()}.-</td>
+							<td class="importe"></td>
+							<td class="importe">$ ${liq.getOtros_Items()}.-</td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td class="subtotal">Subtotal</td>
+							<td class="subtotal"></td> <!-- SUBTOTAL A -->
+							<td class="subtotal">$ ${liq.getTotal_bruto()}.-</td>
+							<td class="subtotal"></td>
+							<td class="subtotal">$ ${liq.getTotal_bruto()}.-</td>
+							<td></td>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td class="subtotal">Total Rubro ${st1_nu}</td>
+							<td class="subtotal"></td> <!-- SUBTOTAL A -->
+							<td class="subtotal"></td>
+							<td class="subtotal"></td>
+							<td class="subtotal">${liq.getTotal_bruto()}</td>
+							<td>
+								<form action="/edit_liqSueldo" method="POST">
+									<input type="hidden" value="${liq.getId_sueldo_empleado()}" id="id" name="id">
+									<input type="hidden" value="true" id="flag" name="flag">
+									<span class="hint--left" data-hint="LA EDICIÃ“N ANULARÃ� LA LIQUIDACIÃ“N DE TODO EL PERÃ�ODO">
+										<button type="submit" class="aSalir"><span class="glyphicon glyphicon-edit"></span></button>
+									</span>
+								</form>
+							</td>
+						</tr>
+						</#list>
+
+
+						<#list resultListTodos as todos>
+
+						<tr class="">
+							<th class="subtipo">${todos.getIdSubtipo()}</th>
+							<th>${todos.getSubTipo()}</th>
+							<th nowrap class="subtipo"></th>
+							<th nowrap class="subtipo"></th>
+							<th nowrap class="subtipo"></th>
+							<th class="subtipo"></th>
+							<th></th>
+						</tr>
+						<tr class="">
+							<td></td>
+							<td>${todos.getQQG()} | CUIT: ${todos.getCUIT()} | Factura: ${todos.getNro_Factura()} - ${todos.getDetalle()}</td>
+							<td nowrap class="importe">$ ${todos.getGastosA()}.-</td>
+							<td nowrap class="importe">$ ${todos.getGastosB()}.-</td>
+							<td nowrap class="importe">$ ${todos.getGastosC()}.-</td>
+							<td nowrap class="importe">$ ${todos.getTotal()}.-</td>
+							<td>
+								<form action="/edit_gastos" method="POST" class="editGasto">
+									<input type="hidden" name="id" id="id" value="${todos.getId()}">
+									<input type="hidden" value="${todos.getLiquidado()}" id="flag" name="flag">
+									<span class="hint--left" data-hint="SI EL GASTO SE MODIFICA, LA EDICIÃ“N ANULARÃ� LA LIQUIDACIÃ“N DE TODO EL PERÃ�ODO">
+									<button type="submit" class="aSalir">
+										<span class="glyphicon glyphicon-edit"></span>
+									</button>
+									</span>
+
+								</form>
+							</td>
+						</tr>
+
+						</#list>
+						<#assign x=2>
+						<#list listtotal as total>
+
+						<tr class="">
+							<td></td>
+							<td class="subtotal">Total Rubro #{x}</td>
+							<td class="subtotal"></td>
+							<td class="subtotal importe"></td>
+							<td class="subtotal importe"></td>
+							<td class="subtotal importe">#{total; m1M2}</td>
+							<td class="importe"></td>
+						</tr>
+						<#assign x=x+1>
+						</#list>
+
+					</table>
+
+
+				</div>
+
+
+			<br>
+			<br>
+
+
+			<div class="row exp_datosAdm">
+
+			</div>
+
+
+
+			<div class="exp_subtitulos">
+				<h5>RESUMEN DE INGRESOS Y EGRESOS</h5>
+			</div>
+
+			<div class="col-xs-10 sectorTablas">
+			<div class="dataTables_scroll">
+				<div style="overflow: auto; width: 100%; max-height: 600px;" class="dataTables_scrollBody">
+
+					<table class="table table-bordered table-hover" id="table-id2">
+						<tr class="">
+							<th>Fecha</th>
+							<th nowrap>Saldo Anterior</th>
+							<th>Importe</th>
+							<th nowrap>Saldo Final</th>
+							<th>Concepto</th>
+							<th nowrap>Unidad Funcional</th>
+							<th nowrap>Pagador</th>
+							<th nowrap>Usuario</th>
+						</tr>
+						<#list cajas as caja>
+						<tr>
+							<td>${caja.getFecha()}</td>
+							<td nowrap>${caja.getSaldo_Anterior()}</td>
+							<td><#if (caja.getSaldo_Anterior() > caja.getSaldo_Final())>(${caja.getImporte()})<#else>${caja.getImporte()}</#if></td>
+							<td nowrap>${caja.getSaldo_Final()}</td>
+							<td>${caja.getConsepto()}</td>
+							<td>${caja.getUnidad_Funcional()}</td>
+							<td>${caja.getPagador()}</td>
+							<td>${caja.getUsuario()}</td>
+
+						</tr>
+						</#list>
+					</table>
+
+				</div>
+			</div>
+			</div>
+
+		</div> <!-- DIV FINAL -->
+
+
+
+
+
+
+
+
+		</div>
+
+
+	</div>
+
+</div>
+
+<script>
+
+$('.editGasto').submit(function(){
+
+	confirm("Si modifica este gasto se anularÃ¡ la liquidaciÃ³n del perÃ­odo y se eliminaran los prorrateos. Â¿Desea continuar?", function(e){
+		if(e){
+			//alertify.alert("Redireccionando...");
+			alert("Redireccionando...");
+		} else {
+			return false;
+		}
+	});
+
+});
+
+
+webshims.setOptions('waitReady', false);
+webshims.setOptions('forms-ext', {types: 'date'});
+webshims.polyfill('forms forms-ext');
+
+function valida(e){
+    tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==8){
+        return true;
+    }
+
+    // Patron de entrada, en este caso solo acepta numeros
+    //patron =/[0-9]/; // DE O A 9
+    patron =/[0-9-.]/; // DE 0 A 9 con PUNTO
+    tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+}
+
+$('#formGastoNew').submit(function(){
+
+		if($('#facNG').val().length < 1){
+			$('#llenarFac').text("[Ingrese el nÃºmero de factura]");
+			return false;
+		} else {
+			$('#llenarFac').text("");
+			var a = 1;
+		}
+
+		if($('#detNG').val().length < 1){
+			$('#llenarDet').text("[Ingrese el detalle]");
+			return false;
+		} else {
+			$('#llenarDet').text("");
+			a++;
+		}
+
+		if($('#impNG').val().length < 1){
+			$('#llenarImp').text("[Ingrese el importe]");
+			return false;
+		} else {
+			$('#llenarImp').text("");
+			a++;
+		}
+
+		if ((a == 3) && ($('#selectEdif').val() != "*") && ($('#selectQGG').val() != "*")){
+			alert("Se cargo un nuevo gasto");
+		}
+
+});
+
+</script>
+
+
+</body>
+
+</@layout.myLayout>

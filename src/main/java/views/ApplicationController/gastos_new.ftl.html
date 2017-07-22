@@ -1,0 +1,318 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+
+
+<body class="">
+
+<div class="container main">
+
+	<br>
+	<form action="/NuevoGasto" method="POST" class="form-horizontal" id="formGastoNew">
+	<h4>Ingresar Nuevo Gasto:</h4>
+
+	<div class="row ">
+
+		<div class="col-xs-12 col-md-4 sectorTablas">
+				<div class="form-group">
+					<label class="control-label col-sm-6">Fecha:</label>
+					<div class="col-sm-6">
+						<input type="date" class="form-control" placeholder="${fecha}" value=${fecha} name="fecNG" id="fecNG" onfocus="(this.type='date')">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-6">Edificio:</label>
+					<div class="col-sm-6">
+						<select name="selectEdif" id="selectEdif" style="width: 166px; height: 30px;">
+							<option value="*">Seleccione...</option>
+							<#list consorcios as cons>
+							<option value="${cons.get_NombreCons()}">${cons.get_NombreCons()}</option>
+							</#list>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-6">Unidad Funcional:</label>
+					<div class="col-sm-6">
+						<input type="number" min="0" class="form-control" value="0" name="selectUnidad" id="selectUnidad" onkeypress="return valida(event)">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-6">Generador:</label>
+					<div class="col-sm-6">
+						<select name="selectQGG" id="selectQGG" style="width: 166px; height: 30px;">
+							<option value="*">Seleccione...</option>
+							<#list proveedores as proveedor>
+							<option value="${proveedor.getNombre_prov()}, ${proveedor.getCUIT_prov()}">${proveedor.getNombre_prov()}</option>
+							</#list>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-6">Nro Factura:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="XXXX-XXXXXXXX" name="facNG" id="facNG" onkeypress="return valida(event)">
+					</div>
+				</div>
+
+
+		</div>
+
+		<div class="col-xs-12 col-md-4 sectorTablas">
+
+				<div class="form-group">
+					<label class="control-label col-sm-6">Tipo Gasto:</label>
+					<div class="col-sm-6">
+						<select name="tipoGasto" id="tipoGasto" style="width: 166px; height: 30px;">
+							<option selected="selected" value="Ord">Gasto Ordinario</option>
+							<option value="Ext">Gasto Extraordinario</option>
+						<!--	<option value="*">Liquidacion</option> -->
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-6">Categoria:</label>
+					<div class="col-sm-6">
+						<select name="selectCate" id="selectCate" style="width: 166px; height: 30px;">
+							<option value="*">Seleccione...</option>
+							<#list subtipos as subtipo>
+							<option value="${subtipo.getNum_subtipo()}-${subtipo.getNombre_subtipo()}">${subtipo.getNum_subtipo()} - ${subtipo.getNombre_subtipo()}</option>
+							</#list>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-6">Cuotas:</label>
+					<div class="col-sm-6">
+						<input type="number" min="1" class="form-control" value="1" name="couNG" id="couNG" onkeypress="return valida(event)">
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-6">Detalle:</label>
+					<div class="col-sm-6">
+						<textarea type="text" class="form-control" placeholder="Detalle" name="detNG" id="detNG"></textarea>
+					</div>
+				</div>
+
+		</div>
+		<div class="col-xs-12 col-md-4 sectorTablas">
+				<div class="form-group">
+					<label class="control-label col-sm-4">Gasto A:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" value="0" name="impGA" id="impGA" onkeypress="return valida(event)">
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Gasto B:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" value="0" name="impGB" id="impGB" onkeypress="return valida(event)">
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Gasto C:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" value="0" name="impGC" id="impGC" onkeypress="return valida(event)">
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Total:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" value="0" name="impTot" id="impTot" onkeypress="return valida(event)" readonly="">
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+
+
+				<div class="form-group">
+					<label class="control-label col-sm-2"></label>
+					<div class="col-sm-offset-2 col-sm-4">
+
+						<button type="submit" class="btn btn-warning" style="width: 166px;">Cargar</button><br><br>
+					</div>
+				</div>
+
+		</div>
+
+
+
+
+		</form>
+	</div>
+
+</div>
+
+<script>
+
+
+webshims.setOptions('waitReady', false);
+webshims.setOptions('forms-ext', {types: 'date'});
+webshims.polyfill('forms forms-ext');
+
+function valida(e){
+    tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==8){
+        return true;
+    }
+
+    if (tecla==0) return true;
+
+
+    // Patron de entrada, en este caso solo acepta numeros
+    //patron =/[0-9]/; // DE O A 9
+    patron =/[0-9-.]/; // DE 0 A 9 con PUNTO
+    tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+}
+
+$('#formGastoNew').submit(function(){
+
+	if($('#selectEdif').val()=="*"){
+		alert("Seleccionar edificio");
+		return false;
+	} else {
+		var a = 1;
+	}
+
+	if($('#selectQGG').val()=="*"){
+		alert("Seleccionar QGG");
+		return false;
+	} else {
+		a++;
+	}
+
+	if($('#selectCate').val()=="*"){
+		alert("Seleccionar Categoria");
+		return false;
+	} else {
+		a++;
+	}
+
+	if($('#facNG').val().length < 1){
+		$("#facNG").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#facNG").focus();
+		return false;
+	} else {
+		a++;
+	}
+
+
+	if($('#detNG').val().length < 1){
+		$("#detNG").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#detNG").focus();
+		return false;
+	} else {
+		a++;
+	}
+
+	if($('#impGA').val().length < 1){
+		$("#impGA").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#impGA").focus();
+		return false;
+	} else {
+		if(!$.isNumeric($("#impGA").val())){
+			$("#impGA").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#impGA").focus();
+			return false;
+		} else {
+			a++;
+		}
+	}
+
+	if($('#impGB').val().length < 1){
+		$("#impGB").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#impGB").focus();
+		return false;
+	} else {
+		if(!$.isNumeric($("#impGB").val())){
+			$("#impGB").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#impGB").focus();
+			return false;
+		} else {
+			a++;
+		}
+	}
+
+	if($('#impGC').val().length < 1){
+		$("#impGC").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#impGC").focus();
+		return false;
+	} else {
+		if(!$.isNumeric($("#impGC").val())){
+			$("#impGC").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#impGC").focus();
+			return false;
+		} else {
+			a++;
+		}
+	}
+
+
+	if(!$.isNumeric($("#impTot").val())) {
+		$("#impGA").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#impGB").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#impGC").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		return false;
+	} else {
+		a++;
+	}
+
+	if(a==9){
+		alert("Se generó un nuevo gasto.");
+	}
+
+
+});
+
+
+var impA;
+var impB;
+var impC;
+var impT;
+
+$("#impGA").change(function(){
+
+	impA = $("#impGA").val();
+  	impB = $("#impGB").val();
+  	impC = $("#impGC").val();
+  	impT = parseFloat(impA) + parseFloat(impB) + parseFloat(impC);
+  	$('#impTot').val(impT);
+
+});
+
+$("#impGB").change(function() {
+
+	impA = $("#impGA").val();
+  	impB = $("#impGB").val();
+  	impC = $("#impGC").val();
+  	impT = parseFloat(impA) + parseFloat(impB) + parseFloat(impC);
+  	$('#impTot').val(impT);
+
+});
+
+$("#impGC").change(function() {
+
+	impA = $("#impGA").val();
+  	impB = $("#impGB").val();
+  	impC = $("#impGC").val();
+  	impT = parseFloat(impA) + parseFloat(impB) + parseFloat(impC);
+  	$('#impTot').val(impT);
+
+});
+
+
+</script>
+
+
+</body>
+
+</@layout.myLayout>

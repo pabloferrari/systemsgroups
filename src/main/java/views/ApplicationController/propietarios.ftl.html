@@ -1,0 +1,90 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+
+
+<body class="">
+
+
+<div class="container-fluid">
+	<div class="row main">
+		<div class="col-md-12 sectorTablas">
+			<br><h4>Buscar Propietario:</h4>
+			<form action="filtroProp" method="POST" class="form-horizontal" id="filtroCons">
+
+				<div class="form-group col-sm-3">
+					<label class="control-label">Filtro:</label>
+					<input type="text" class="form-control" placeholder="" name="Filtro" id="Filtro">
+					<label class="mensajeAlerta" id="llenarfiltro"></label>
+					<br>
+					<button type="submit" class="btn btn-warning">Buscar</button><br><br>
+				</div>
+
+			</form>
+
+
+		</div>
+	</div>
+
+	<div class="row main">
+	<div class="col-md-12 sectorTablas">
+	<!-- Propietarios -->
+		<h3>Listado de Propietarios:</h3>
+			<div class="dataTables_scroll">
+			<div style="overflow: auto; width: 100%; max-height: 600px;" class="dataTables_scrollBody">
+			<table class="table table-bordered table-hover">
+				<tr class="warning">
+					<th></th>
+					<th>Nombre</th>
+					<th>Apellido</th>
+					<th>Documento</th>
+					<th>Dirección</th>
+					<th>Telefono</th>
+					<th nowrap>Email / Contactar</th>
+					<th>Edificio</th>
+					<th>Dto</th>
+					<th>Unidad</th>
+					<th>Inquilino</th>
+					<th nowrap>% Exp</th>
+					<th nowrap>% Exp Ext.</th>
+					<th nowrap>Saldo</th>
+				</tr>
+				<#list propietarios as propietario>
+				<tr>
+						<td><form action="/edit_propietarios" method="POST"><input type="hidden" value="${propietario.getId()}" id="id" name="id"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-edit"></span></button></form></td>
+						<td>${propietario.getNombre()}</td>
+						<td>${propietario.getApellido()}</td>
+						<td>${propietario.getDocumento()}</td>
+						<td nowrap>${propietario.getDireccion()}</td>
+						<td>${propietario.getTelefono()}</td>
+						<td>
+						<form action="mailto:${propietario.getEmail()}?subject=Consulta" method="post" enctype="text/plain"><input type="submit" class="btn btn-warning" value="${propietario.getEmail()}">
+						</form>
+						</td>
+						<td>${propietario.getEdificio()}</td>
+						<td>${propietario.getNumeroDto()}</td>
+						<td>${propietario.getUnidad()}</td>
+						<td nowrap>${propietario.getInquilino()}</td>
+						<td>${propietario.getExp()}</td>
+						<td>${propietario.getExpExt()}</td>
+						<td>${propietario.getSaldo()}</td>
+
+
+				</tr>
+				</#list>
+
+
+			</table>
+			</div>
+			</div> <!-- fin dataTables_scroll -->
+
+	</div>
+	</div>
+
+</div>
+
+
+
+
+</body>
+
+</@layout.myLayout>

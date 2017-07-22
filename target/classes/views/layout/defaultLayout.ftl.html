@@ -1,0 +1,60 @@
+<#macro myLayout title="Layout example">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximun-scale=1.0, minimun-scale=1.0 ">
+   <title>Systems Group</title>
+<!--
+
+   ppppppppppp         ffffffffffffff        !!
+   ppppppppppppp       fffffffffffff        !!!!
+   ppp       pppp      ffff                 !!!!
+   ppp       pppp      ffff                 !!!!
+   ppp      pppp       fffffffffff          !!!!
+   ppppppppppp         ffffffffff           !!!!
+   pppppppp            ffff                 !!!!
+   pppp                ffff                  !!
+   pppp                ffff
+   pppp                ffff                 !!!!
+   pppp                ffff                 !!!!
+
+-->
+<!-- 	<link rel="stylesheet" href="/assets/css/custom.css" media="screen" title="no title" charset="utf-8"> -->
+   <link rel="stylesheet" href="/assets/css/estilos.css" media="screen" title="no title" charset="utf-8">
+   <link rel="stylesheet" href="/assets/css/bootstrap.css" media="screen" title="no title" charset="utf-8">
+   <link rel="stylesheet" href="/assets/css/styles.css" media="screen" title="no title" charset="utf-8">
+   <link rel="stylesheet" href="/assets/css/custom.css" media="screen" title="no title" charset="utf-8">
+   <link rel="stylesheet" href="/assets/css/bootstrap-theme.min.css" media="screen" title="no title" charset="utf-8">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+   <link rel="stylesheet" href="/assets/css/alertify.core.css" media="screen" title="no title" charset="utf-8">
+   <link rel="stylesheet" href="/assets/css/alertify.default.css" media="screen" title="no title" charset="utf-8">
+   <link rel="shortcut icon" href="/assets/images/favicon.png">
+   <script src="/assets/js/jquery-2.1.4.js" charset="utf-8"></script>
+   <script src="/assets/js/bootstrap.js" charset="utf-8"></script>
+   <script src="/assets/js/jquery.js" charset="utf-8"></script>
+   <script type="text/javascript" src="/assets/js/jspdf.min.js"></script>
+   <script type="text/javascript" src="/assets/js/html2canvas.js"></script>
+   <script type="text/javascript" src="/assets/js/alertify.min.js"></script>
+
+
+
+
+</head>
+<body class="">
+	<#include "header.ftl.html"/>
+	<div class="container-fluid">
+
+
+
+        <#nested/>
+
+
+
+    </div> <!-- /container -->
+		<#include "footer.ftl.html"/>
+</body>
+</html>
+
+</#macro>

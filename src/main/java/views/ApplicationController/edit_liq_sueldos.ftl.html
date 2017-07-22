@@ -1,0 +1,586 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+
+
+<body class="">
+
+<div class="container main">
+
+      <hr>
+      <h4>Modificar Liquidación de Sueldo: </h4>
+      <form action="/editarliqSueldo" method="POST" class="form-horizontal" id="editarliqSueldo">
+
+      <div class="row ">
+
+            <div class="col-xs-12 col-sm-6 col-md-4 sectorTablas">
+            <!-- COLUMNA 1 -->
+
+                        <div class="form-group">
+	                        <label class="control-label col-sm-5">Período:</label>
+	                        <div class="col-sm-7">
+	                        	<#list liquidacion as liq>
+	                        	<input type="text" class="form-control" value="${liq.getFecha_liq()}" name="selectEdif" id="selectEdif" onkeypress="return valida(event)" onchange="prueba()" tabindex="1" readonly>
+	                        	</#list>
+	                        </div>
+
+                  		</div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-4 sectorTablas">
+            <!-- COLUMNA 2 -->
+
+                        <div class="form-group">
+	                        <label class="control-label col-sm-5">Edificio:</label>
+	                        <div class="col-sm-7">
+	                        	<#list liquidacion as liq>
+	                        	<input type="text" class="form-control" value="${liq.getEdificio()}" name="selectEdif" id="selectEdif" onkeypress="return valida(event)" onchange="prueba()" tabindex="1" readonly>
+	                        	</#list>
+	                        </div>
+
+                  		</div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-4 sectorTablas">
+            <!-- COLUMNA 3 -->
+
+                        <div class="form-group">
+	                        <label class="control-label col-sm-5">Empleado:</label>
+	                        <div class="col-sm-7">
+	                        	<#list liquidacion as liq>
+	                        	<input type="text" class="form-control" value="${liq.getEmpleado()}" name="selectEmple" id="selectEmple" onkeypress="return valida(event)" onchange="prueba()" tabindex="1" readonly>
+	                        	</#list>
+	                        </div>
+                  		</div>
+
+            </div>
+
+      </div> <!-- ROW 1 -->
+
+      <div class="row">
+
+            <div class="col-xs-12 col-sm-6 col-md-4 sectorTablas">
+            <!-- COLUMNA 1 -->
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Sueldo Básico:</label>
+                        <div class="col-sm-7">
+                        	<#list liquidacion as liq>
+                        	<input type="text" class="form-control" value="${basico}" name="basNLS" id="basNLS" onkeypress="return valida(event)" onchange="prueba()" tabindex="1">
+                        	</#list>
+                        </div>
+
+                  </div>
+
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Presentismo:
+                        	<input type="checkbox" name="presentismo" class="pres_sino" id="pres_sino" checked>
+                        </label>
+                        <div class="col-sm-3">
+						    <input type="text" class="form-control" placeholder="11 %" value="8.33" name="presentismo" id="presentismo" disabled>
+						</div>
+                        <div class="col-sm-4">
+                        	<#list liquidacion as liq>
+							<input type="text" class="form-control" value="${present}" name="preNLS" id="preNLS" onkeypress="return valida(event)" onchange="prueba()">
+							</#list>
+                        </div>
+                  </div>
+
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Antigüedad:</label>
+                        <div class="col-sm-3">
+							<input type="number" min=0 max=100 class="form-control" placeholder="años" value="0" name="antiguedad" id="antiguedad">
+						</div>
+                        <div class="col-sm-4">
+							<#list liquidacion as liq>
+							<input type="text" class="form-control" value="${antigue}" name="antNLS" id="antNLS" onkeypress="return valida(event)" onchange="prueba()" tabindex="1">
+							</#list>
+                        </div>
+                  </div>
+
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Sac:</label>
+                        <div class="col-sm-7">
+                        	<#list liquidacion as liq>
+							<input type="text" class="form-control" value="${sac}" name="sacNLS" id="sacNLS" onkeypress="return valida(event)" onchange="prueba()" tabindex="1">
+							</#list>
+                        </div>
+                  </div>
+
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Vacaciones NG:</label>
+                        <div class="col-sm-7">
+                        	<#list liquidacion as liq>
+							<input type="text" class="form-control" value="${vaca}" name="vacNLS" id="vacNLS" onkeypress="return valida(event)" onchange="prueba()" tabindex="1">
+							</#list>
+                        </div>
+                  </div>
+
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Horas Extras:</label>
+                        <div class="col-sm-7">
+                        	<#list liquidacion as liq>
+							<input type="text" class="form-control" value="${horExt}" name="hexNLS" id="hexNLS" onkeypress="return valida(event)" onchange="prueba()" tabindex="1">
+							</#list>
+                        </div>
+
+                  </div>
+
+
+            <!-- FIN COLUMNA 1 -->
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-4 sectorTablas">
+            <!-- COLUMNA 2 -->
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Jubilación:</label>
+                        <div class="col-sm-3">
+							<input type="text" class="form-control" placeholder="11 %" value="11" name="jubilacion" id="jubilacion" disabled>
+						</div>
+                        <div class="col-sm-4">
+                        	<#list liquidacion as liq>
+							<input type="text" class="form-control" value="${jubila}" name="jubNLS" id="jubNLS" onkeypress="return valida(event)" onchange="prueba()" tabindex="1">
+							</#list>
+                        </div>
+
+                  </div>
+
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Obra Social:</label>
+                        <div class="col-sm-3">
+							<input type="text" class="form-control" placeholder="3 %" value="3" name="obrasocial" id="obrasocial" disabled>
+						</div>
+                        <div class="col-sm-4">
+                        	<#list liquidacion as liq>
+							<input type="text" class="form-control" value="${obsoc}" name="obsNLS" id="obsNLS" onkeypress="return valida(event)" onchange="prueba()" tabindex="1">
+							</#list>
+                        </div>
+                  </div>
+
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">AFIP:</label>
+                        <div class="col-sm-7">
+                        	<#list liquidacion as liq>
+							<input type="text" class="form-control" value="${afip}" name="afiNLS" id="afiNLS" onkeypress="return valida(event)" onchange="prueba()" tabindex="1">
+							</#list>
+                        </div>
+                  </div>
+
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Suterh:</label>
+                        <div class="col-sm-7">
+                        	<#list liquidacion as liq>
+							<input type="text" class="form-control" value="${suter}" name="suhNLS" id="suhNLS" onkeypress="return valida(event)" onchange="prueba()" tabindex="1">
+							</#list>
+                        </div>
+                  </div>
+
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Fateryh:</label>
+                        <div class="col-sm-7">
+                        	<#list liquidacion as liq>
+							<input type="text" class="form-control" value="${fater}" name="fahNLS" id="fahNLS" onkeypress="return valida(event)" onchange="prueba()" tabindex="1">
+							</#list>
+                        </div>
+                  </div>
+
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Seracarh:</label>
+                        <div class="col-sm-7">
+                        	<#list liquidacion as liq>
+							<input type="text" class="form-control" value="${serac}" name="sehNLS" id="sehNLS" onkeypress="return valida(event)" onchange="prueba()" tabindex="1">
+							</#list>
+                        </div>
+                  </div>
+            <!-- FIN COLUMNA 2 -->
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-4 sectorTablas">
+            <!-- COLUMNA 3 -->
+
+				  <div class="form-group">
+                        <label class="control-label col-sm-5">ART:</label>
+                        <div class="col-sm-7">
+                        	<#list liquidacion as liq>
+							<input type="text" class="form-control" value="${art}" name="artNLS" id="artNLS" onkeypress="return valida(event)" onchange="prueba()" tabindex="1">
+							</#list>
+                        </div>
+                  </div>
+
+				  <div class="form-group">
+                        <label class="control-label col-sm-5">Imp. Ganancias:</label>
+                        <div class="col-sm-7">
+                        	<#list liquidacion as liq>
+							<input type="text" class="form-control" value="${ganan}" name="ganNLS" id="ganNLS" onkeypress="return valida(event)" onchange="prueba()" tabindex="1">
+							</#list>
+                        </div>
+                  </div>
+
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Otros Descuentos:</label>
+                        <div class="col-sm-7">
+                        	<#list liquidacion as liq>
+							<input type="text" class="form-control" value="${otd}" name="odeNLS" id="odeNLS" onkeypress="return valida(event)" onchange="prueba()" tabindex="1">
+							</#list>
+                        </div>
+
+                  </div>
+
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Total Bruto:</label>
+                        <div class="col-sm-7">
+                        	<#list liquidacion as liq>
+							<input type="text" class="form-control" value="${bruto}" name="totBruNLS" id="totBruNLS" onkeypress="return valida(event)" onchange="prueba()" tabindex="1">
+							</#list>
+                        </div>
+                  </div>
+
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Total Neto:</label>
+                        <div class="col-sm-7">
+                        	<#list liquidacion as liq>
+							<input type="text" class="form-control" value="${neto}" name="totNetNLS" id="totNetNLS" onkeypress="return valida(event)" onchange="prueba()" tabindex="1">
+							</#list>
+                        </div>
+                  </div>
+
+                  <div class="form-group">
+	                  <div class="col-sm-offset-5 col-sm-7">
+	                  		<#list liquidacion as liq>
+							<input type="hidden" class="form-control" value="${liq.getId_sueldo_empleado()}" name="id" id="id" onkeypress="return valida(event)" onchange="prueba()" tabindex="1">
+							</#list>
+	                        <button type="submit" class="form-control btn btn-warning">Editar</button><br><br>
+	                  </div>
+	              </div>
+            <!-- FIN COLUMNA 3 -->
+            </div>
+
+
+      </div> <!-- ROW 2 -->
+
+      </form>
+	  <form action="/liqSueldo" method="POST"><button type="submit" class="form-control btn btn-danger">Cancelar</button><br><br></form>
+
+</div> <!-- CONTAINER -->
+
+<script>
+
+function valida(e){
+
+    tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==8){
+        return true;
+    }
+	if (tecla==0) return true;
+	
+    // Patron de entrada, en este caso solo acepta numeros
+    //patron =/[0-9]/; // DE O A 9
+    patron =/[0-9-.-9]/; // DE 0 A 9 con PUNTO
+    tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+}
+
+
+/////// INICIO FORMULARIO NEW LIQ SUELDO ///////
+$('#editarliqSueldo').submit(function(){
+
+		if(!$.isNumeric($("#basNLS").val())){
+			$("#basNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#basNLS").focus();
+			return false;
+		}
+
+		if(!$.isNumeric($("#antNLS").val())){
+			$("#antNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#antNLS").focus();
+			return false;
+		}
+
+		if(!$.isNumeric($("#preNLS").val())){
+			$("#preNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#preNLS").focus();
+			return false;
+		}
+
+		if(!$.isNumeric($("#sacNLS").val())){
+			$("#sacNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#sacNLS").focus();
+			return false;
+		}
+
+		if(!$.isNumeric($("#vacNLS").val())){
+			$("#vacNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#vacNLS").focus();
+			return false;
+		}
+
+		if(!$.isNumeric($("#hexNLS").val())){
+			$("#hexNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#hexNLS").focus();
+			return false;
+		}
+
+		if(!$.isNumeric($("#jubNLS").val())){
+			$("#jubNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#jubNLS").focus();
+			return false;
+		}
+
+		if(!$.isNumeric($("#obsNLS").val())){
+			$("#obsNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#obsNLS").focus();
+			return false;
+		}
+
+		if(!$.isNumeric($("#afiNLS").val())){
+			$("#afiNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#afiNLS").focus();
+			return false;
+		}
+
+		if(!$.isNumeric($("#suhNLS").val())){
+			$("#suhNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#suhNLS").focus();
+			return false;
+		}
+
+		if(!$.isNumeric($("#fahNLS").val())){
+			$("#fahNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#fahNLS").focus();
+			return false;
+		}
+
+		if(!$.isNumeric($("#sehNLS").val())){
+			$("#sehNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#sehNLS").focus();
+			return false;
+		}
+
+		if(!$.isNumeric($("#artNLS").val())){
+			$("#artNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#artNLS").focus();
+			return false;
+		}
+
+		if(!$.isNumeric($("#ganNLS").val())){
+			$("#ganNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#ganNLS").focus();
+			return false;
+		}
+
+		if(!$.isNumeric($("#odeNLS").val())){
+			$("#odeNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#odeNLS").focus();
+			return false;
+		}
+
+		if(!$.isNumeric($("#totBruNLS").val())){
+			$("#totBruNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#totBruNLS").focus();
+			return false;
+		}
+
+		if(!$.isNumeric($("#totNetNLS").val())){
+			$("#totNetNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#totNetNLS").focus();
+			return false;
+		}
+
+
+}); /////// FIN FORMULARIO NEW LIQ SUELDO ///////
+
+// A FAVOR
+var basico;
+var anti_tot;
+var pres_tot;
+var sac;
+var vac;
+var hex;
+
+// NEGATIVO
+var jubi_tot;
+var obsoc_tot;
+var afip;
+var suter;
+var fater;
+var serac;
+var art;
+var img;
+var otd;
+
+// TOTALES
+var total_bruto;
+var total_negativo;
+var total_neto;
+
+
+
+function suma_positivo(){
+
+	basico = $("#basNLS").val();
+	pres_tot = $("#preNLS").val();
+	anti_tot = $("#antNLS").val();
+	sac = $("#sacNLS").val();
+  	vac = $("#vacNLS").val();
+  	hex = $("#hexNLS").val();
+
+  	total_bruto = parseFloat(basico) + parseFloat(pres_tot) + parseFloat(anti_tot) + parseFloat(sac) + parseFloat(vac) + parseFloat(hex);
+  	$('#totBruNLS').val(total_bruto.toFixed(2));
+
+}
+
+function suma_negativo(){
+
+	jubi_tot = $("#jubNLS").val();
+	obsoc_tot = $("#obsNLS").val();
+	afip = $("#afiNLS").val();
+	suter = $("#suhNLS").val();
+	fater = $("#fahNLS").val();
+	serac = $("#sehNLS").val();
+	art = $("#artNLS").val();
+	img = $("#ganNLS").val();
+	otd = $("#odeNLS").val();
+
+  	total_negativo = parseFloat(jubi_tot) + parseFloat(obsoc_tot) + parseFloat(afip) + parseFloat(suter) + parseFloat(fater) + parseFloat(serac) + parseFloat(art) + parseFloat(img) + parseFloat(otd);
+  	total_neto = total_bruto - total_negativo;
+  	$('#totNetNLS').val(total_neto.toFixed(2));
+
+}
+
+$("#basNLS").change(function() {
+
+	// ANTIGUEDAD
+	basico = $("#basNLS").val();
+	var anti_multi = $("#antiguedad").val();
+	anti_tot = (basico * anti_multi)/100;
+	$('#antNLS').val(anti_tot);
+
+	// JUBILACION
+	var jubi_multi = $("#jubilacion").val();
+	jubi_tot = (basico * jubi_multi)/100;
+	$('#jubNLS').val(jubi_tot);
+
+	// OBRA SOCIAL
+	var obso_multi = $('#obrasocial').val();
+	obsoc_tot = (basico * obso_multi)/100;
+	$('#obsNLS').val(obsoc_tot);
+
+	// PRESENTISMO
+  	var presen = parseFloat(anti_tot) + parseFloat(basico);
+  	var pres_multi = $("#presentismo").val();
+  	pres_tot = (presen * pres_multi)/100;
+  	$('#preNLS').val(pres_tot);
+
+	suma_positivo();
+	suma_negativo();
+
+});
+
+$("#antiguedad").change(function() {
+
+  	// ANTIGUEDAD
+	basico = $("#basNLS").val();
+	var anti_multi = $("#antiguedad").val();
+	anti_tot = (basico * anti_multi)/100;
+	$('#antNLS').val(anti_tot);
+
+  	// PRESENTISMO
+  	var presen = parseFloat(anti_tot) + parseFloat(basico);
+  	var pres_multi = $("#presentismo").val();
+  	pres_tot = (presen * pres_multi)/100;
+  	$('#preNLS').val(pres_tot);
+
+	suma_positivo();
+	suma_negativo();
+
+});
+
+$("#preNLS").change(function() {
+
+  	basico = $("#basNLS").val();
+	var anti_multi = $("#antiguedad").val();
+	var pres = (basico * anti_multi) + basico;
+	var pres_multi = $("#presentismo").val();
+ 	pres_tot = (pres * pres_multi);
+ 	$('#preNLS').val(total);
+ 	
+ 	suma_positivo();
+	suma_negativo();
+
+
+});
+
+$("#antNLS").change(function() {
+	suma_positivo();
+	suma_negativo();
+});
+
+$("#sacNLS").change(function() {
+	suma_positivo();
+	suma_negativo();
+});
+
+$("#vacNLS").change(function() {
+	suma_positivo();
+	suma_negativo();
+});
+
+$("#hexNLS").change(function() {
+	suma_positivo();
+	suma_negativo();
+});
+
+
+$("#jubNLS").change(function() {
+	suma_positivo();
+	suma_negativo();
+});
+
+$("#obsNLS").change(function() {
+	suma_positivo();
+	suma_negativo();
+});
+
+$("#afiNLS").change(function() {
+	suma_positivo();
+	suma_negativo();
+});
+
+$("#suhNLS").change(function() {
+	suma_positivo();
+	suma_negativo();
+});
+
+$("#fahNLS").change(function() {
+	suma_positivo();
+	suma_negativo();
+});
+
+$("#sehNLS").change(function() {
+	suma_positivo();
+	suma_negativo();
+});
+
+$("#artNLS").change(function() {
+	suma_positivo();
+	suma_negativo();
+});
+
+$("#ganNLS").change(function() {
+	suma_positivo();
+	suma_negativo();
+});
+
+$("#odeNLS").change(function() {
+	suma_positivo();
+	suma_negativo();
+});
+
+</script>
+
+
+</body>
+
+</@layout.myLayout>

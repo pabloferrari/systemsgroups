@@ -1,0 +1,121 @@
+@font-face {
+   font-family: "SF_Bold";
+   font-style: normal;
+   font-weight: normal;
+   src: url(SanFranciscoText-Bold.otf);
+}
+
+@font-face {
+   font-family: "SF_BoldItalic";
+   font-style: normal;
+   font-weight: normal;
+   src: url(SanFranciscoText-BoldItalic.otf);
+}
+
+@font-face {
+   font-family: "SF_Heavy";
+   font-style: normal;
+   font-weight: normal;
+   src: url(SanFranciscoText-Heavy.otf);
+}
+
+@font-face {
+   font-family: "SF_HeavyItalic";
+   font-style: normal;
+   font-weight: normal;
+   src: url(SanFranciscoText-HeavyItalic.otf);
+}
+
+@font-face {
+   font-family: "SF_Light";
+   font-style: normal;
+   font-weight: normal;
+   src: url(SanFranciscoText-Light.otf);
+}
+
+@font-face {
+   font-family: "SF_LightItalic";
+   font-style: normal;
+   font-weight: normal;
+   src: url(SanFranciscoText-LightItalic.otf);
+}
+
+@font-face {
+   font-family: "SF_Medium";
+   font-style: normal;
+   font-weight: normal;
+   src: url(SanFranciscoText-Medium.otf);
+}
+
+@font-face {
+   font-family: "SF_MediumItalic";
+   font-style: normal;
+   font-weight: normal;
+   src: url(SanFranciscoText-MediumItalic.otf);
+}
+
+@font-face {
+   font-family: "SF_Regular";
+   font-style: normal;
+   font-weight: normal;
+   src: url(SanFranciscoText-Regular.otf);
+}
+
+@font-face {
+   font-family: "SF_RegularItalic";
+   font-style: normal;
+   font-weight: normal;
+   src: url(SanFranciscoText-RegularItalic.otf);
+}
+
+@font-face {
+   font-family: "SF_Semibold";
+   font-style: normal;
+   font-weight: normal;
+   src: url(SanFranciscoText-Semibold.otf);
+}
+
+@font-face {
+   font-family: "SF_SemiboldItalic";
+   font-style: normal;
+   font-weight: normal;
+   src: url(SanFranciscoText-SemiboldItalic.otf);
+}
+
+
+.sf_bold{
+   font-family: "SF_Bold";
+}
+.sf_boldItalic{
+   font-family: "SF_BoldItalic";
+}
+.sf_heavy{
+   font-family: "SF_Heavy";
+}
+.sf_heavyItalic{
+   font-family: "SF_HeavyItalic";
+}
+.sf_light{
+   font-family: "SF_Light";
+}
+.sf_lightItalic{
+   font-family: "SF_LightItalic";
+}
+.sf_medium{
+   font-family: "SF_Medium";
+}
+.sf_mediumItalic{
+   font-family: "SF_MediumItalic";
+}
+.sf_regular{
+   font-family: "SF_Regular";
+}
+.sf_regularItalic{
+   font-family: "SF_Regular";
+}
+.sf_semibold{
+   font-family: "SF_Semibold";
+}
+.sf_semiboldItalic{
+   font-family: "SF_SemiboldItalic";
+}

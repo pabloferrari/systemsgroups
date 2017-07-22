@@ -1,0 +1,199 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+
+
+<body class="">
+
+<div class="container-fluid">
+
+	<div class="row main">
+		<div class="col-sm-12">
+			<h3> Liquidaciones:</h3>
+			<br/>
+			<#list consorcios as consorcio>
+				<div class="col-xs-12 col-sm-6 col-md-4 sectorTablas">
+					<table class="table table-bordered table-hover">
+						<tr class="info">
+							<td align="center"><span class="glyphicon glyphicon-th"></span></td>
+							<td>Edificio: ${consorcio.get_NombreCons()}</td>
+							<td align="center"><span class="glyphicon glyphicon-eye-open"></span></td>
+							<td align="center"nowrap><form action="/gastos_new" method="POST"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-plus"></span></button></form></td>
+						</tr>
+					</table>
+				</div>
+			</#list>
+
+			<div class="col-xs-12 col-sm-6 col-md-4 sectorTablas">
+			</div>
+
+			<div class="col-xs-12 col-sm-6 col-md-4 sectorTablas">
+			</div>
+		</div>
+
+
+	</div>
+
+
+
+	<div class="row main">
+
+
+	<div class="col-md-12 sectorTablas">
+
+			<h3>Gastos:</h3>
+			<div class="dataTables_scroll">
+			<div style="overflow: auto; width: 100%; max-height: 600px;" class="dataTables_scrollBody">
+			<table class="table table-bordered table-hover" id="tabla_gs">
+				<tr class="warning">
+					<th>Fecha</th>
+					<th>Edificio</th>
+					<th>Unidad</th>
+					<th>QGG</th>
+					<th nowrap>Nro Factura</th>
+					<th>Detalle</th>
+					<th nowrap>Gasto A</th>
+					<th nowrap>Gasto B</th>
+					<th nowrap>Gasto C</th>
+					<th>Total</th>
+					<th>Liquidado</th>
+					<th nowrap><form action="/gastos_new" method="POST"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-plus"></span> Nuevo</button></form></th>
+				</tr>
+				<#assign x=1>
+				<#list gastos as gasto>
+				<tr>
+					<td>${gasto.getPeriodo()}</td>
+					<td>${gasto.getEdificio()}</td>
+					<td>${gasto.getUnidad()}</td>
+					<td nowrap>${gasto.getQQG()}</td>
+					<td nowrap>${gasto.getNro_Factura()}</td>
+					<td>${gasto.getDetalle()}</td>
+					<td>${gasto.getGastosA()}</td>
+					<td>${gasto.getGastosB()}</td>
+					<td>${gasto.getGastosC()}</td>
+					<td>${gasto.getTotal()}</td>
+					<td>${gasto.getLiquidado()}</td>
+					<td>
+						<form action="/edit_gastos" method="POST" class="editGasto">
+							<input type="hidden" name="id" id="id" value="${gasto.getId()}">
+							<input type="hidden" value="${gasto.getLiquidado()}" id="flag" name="flag" class="trueofalse_#{x}">
+							<span class="hint--left" data-hint="SI EL GASTO SE ENCUENTRA LIQUIDADO, LA EDICIÓN ANULARÁ LA LIQUIDACIÓN DE TODO EL PERÍODO">
+							<button type="submit" class="aSalir">
+								<span class="glyphicon glyphicon-edit"></span>
+							</button>
+							</span>
+						</form>
+					</td>
+
+				</tr>
+				<#assign x=x+1>
+				</#list>
+
+
+			</table>
+			<label id="label_flag"></label>
+			</div>
+			</div>
+
+		</div>
+
+
+
+	</div>
+</div>
+
+
+<script>
+
+function posicion(){
+
+	$("#tabla_gs tr").click(function() {
+
+		$('#label_flag').text($("#tabla_gs tr").index(this));
+
+	});
+
+}
+
+$('.editGasto').submit(function(){
+
+	posicion();
+	var position;
+
+	posit = $('#label_flag').text();
+	position = ".trueofalse_"+posit;
+
+	if($(position).val()=='False'){
+		//alertify.alert("Redireccionando...");
+		alert("Redireccionando...");
+	} else if($(position).val()=='True') {
+		confirm("Si modifica este gasto se anulará la liquidación del período y se eliminaran los prorrateos. ¿Desea continuar?", function(e){
+			if(e){
+				//alertify.alert("Redireccionando...");
+				alert("Redireccionando...");
+			} else {
+				return false;
+			}
+		});
+	}else{
+		return false;
+	}
+
+});
+
+webshims.setOptions('waitReady', false);
+webshims.setOptions('forms-ext', {types: 'date'});
+webshims.polyfill('forms forms-ext');
+
+function valida(e){
+    tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==8){
+        return true;
+    }
+
+    // Patron de entrada, en este caso solo acepta numeros
+    //patron =/[0-9]/; // DE O A 9
+    patron =/[0-9-.]/; // DE 0 A 9 con PUNTO
+    tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+}
+
+$('#formGastoNew').submit(function(){
+
+		if($('#facNG').val().length < 1){
+			$('#llenarFac').text("[Ingrese el número de factura]");
+			return false;
+		} else {
+			$('#llenarFac').text("");
+			var a = 1;
+		}
+
+		if($('#detNG').val().length < 1){
+			$('#llenarDet').text("[Ingrese el detalle]");
+			return false;
+		} else {
+			$('#llenarDet').text("");
+			a++;
+		}
+
+		if($('#impNG').val().length < 1){
+			$('#llenarImp').text("[Ingrese el importe]");
+			return false;
+		} else {
+			$('#llenarImp').text("");
+			a++;
+		}
+
+		if ((a == 3) && ($('#selectEdif').val() != "*") && ($('#selectQGG').val() != "*")){
+			alert("Se cargo un nuevo gasto");
+		}
+
+});
+
+</script>
+
+
+</body>
+
+</@layout.myLayout>

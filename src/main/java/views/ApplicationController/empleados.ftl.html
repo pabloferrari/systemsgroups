@@ -1,0 +1,97 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+
+<body>
+
+
+
+<div class="container">
+
+	<div class="row main">
+
+
+	<div class="col-xs-12 col-sm-6">
+		<hr>
+		<!-- <h3>Buscar en Empleados:</h3> -->
+		<div class="form-group">
+			<div class="input-group">
+				<form action="/filtroEmpl" method="POST" class="form-horizontal" id="filtroCons">
+					<input type="text" class="" placeholder="" name="Filtro" id="Filtro">
+					<button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+				</form>
+			</div>
+			<br>
+			<div class="input-group">
+				<form action="/empleados_new" method="POST" class="form-horizontal" id="filtroCons">
+					<button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span> Nuevo Empleado</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12 col-sm-6">
+		<!--
+		<h3><span class="glyphicon glyphicon-plus"></span> Nuevo empleado</h3>
+		<div class="form-group">
+			<div class="input-group">
+				<form action="/empleados_new" method="POST" class="form-horizontal" id="filtroCons">
+					<button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span> Nuevo Empleado</button>
+				</form>
+			</div>
+		</div>
+		-->
+	</div>
+
+
+	</div>
+	<div class="row main">
+	<div class="col-md-12">
+
+			<h3>Listado de Empleados:</h3>
+			<div class="dataTables_scroll">
+			<div style="overflow: auto; width: 100%; max-height: 600px;" class="dataTables_scrollBody">
+			<table class="table table-bordered table-hover">
+				<tr class="warning">
+					<th>id</th>
+					<th>Nombre</th>
+					<th>Apellido</th>
+					<th>Documento</th>
+					<th>CUIL</th>
+					<th>Teléfono</th>
+					<th>Celular</th>
+					<th>Email</th>
+					<th>Horario</th>
+					<th>Edificio</th>
+					<th></th>
+				</tr>
+				<#list empleados as empl>
+				<tr>
+					<td>${empl.getId_empleado()}</td>
+					<td>${empl.getNombre_empleado()}</td>
+					<td>${empl.getApellido_empleado()}</td>
+					<td>${empl.getDocumento_empleado()}</td>
+					<td>${empl.getCUIL_empleado()}</td>
+					<td>${empl.getTel_empleado()}</td>
+					<td>${empl.getCel_empleado()}</td>
+					<td>${empl.getEmail_empleado()}</td>
+					<td nowrap>${empl.getHorario_empleado()}</td>
+					<td>${empl.getId_edificio()}</td>
+					<td><form action="/edit_empleados" method="POST"><input type="hidden" value="${empl.getId_empleado()}" id="id" name="id"><button type="submit" class="aSalir"><span class="glyphicon glyphicon-edit"></span></button></form></td>
+				</tr>
+				</#list>
+
+
+			</table>
+			</div>
+			</div>
+
+
+		</div>
+	</div>
+</div>
+
+
+
+
+</body>
+
+</@layout.myLayout>

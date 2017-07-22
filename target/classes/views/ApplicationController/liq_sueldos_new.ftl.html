@@ -1,0 +1,537 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+
+
+<body class="">
+
+<div class="container main">
+
+      <hr>
+      <h4>Ingresar Liquidación de Sueldo: </h4>
+      <form action="/NuevaLiquidacionSueldo" method="POST" class="form-horizontal" id="NuevaLiquidacionSueldo">
+      
+      <div class="row ">
+
+            <div class="col-xs-12 col-sm-6 col-md-4 sectorTablas">
+            <!-- COLUMNA 1 -->
+                  <label class="control-label col-sm-4">Perído:</label>
+                  <div class="col-sm-8">
+                        <select name="mes" id="mes" style="width: 120px; height: 30px;">
+                              <option value="*">*</option>
+                              <option value="01">Enero</option>
+                              <option value="02">Febrero</option>
+                              <option value="03">Marzo</option>
+                              <option value="04">Abril</option>
+                              <option value="05">Mayo</option>
+                              <option value="06">Junio</option>
+                              <option value="07">Julio</option>
+                              <option value="08">Agosto</option>
+                              <option value="09">Septiembre</option>
+                              <option value="10">Octubre</option>
+                              <option value="11">Noviembre</option>
+                              <option value="12">Diciembre</option>           
+                        </select>
+                        <select name="anio" id="anio" style="width: 70px; height: 30px;">
+                              <option value="*">*</option>
+                              <option value="2014">2014</option>
+                              <option value="2015">2015</option>
+                              <option value="2016">2016</option>
+                              <option value="2017">2017</option>
+                              <option value="2018">2018</option>
+                              <option value="2019">2019</option>
+                              <option value="2020">2020</option>        
+                        </select>
+                  </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-4 sectorTablas">
+            <!-- COLUMNA 2 -->
+                  <label class="control-label col-sm-4">Empleado:</label>
+                  <div class="col-sm-8">
+                        <select name="selectEmple" id="selectEmple" style="width: 350px; height: 30px;">
+                              <option value="*">Seleccione...</option>
+                              <#list empleados as emple>    
+                              <option value="${emple.getNombre_empleado()} ${emple.getApellido_empleado()} ${emple.getId_edificio()}">${emple.getNombre_empleado()} ${emple.getApellido_empleado()} || Edificio: ${emple.getId_edificio()} </option>
+                              </#list>          
+                        </select>
+                  </div>
+            </div>
+      
+      </div> <!-- ROW 1 -->
+
+      <hr>
+
+      <div class="row">
+      
+            <div class="col-xs-12 col-sm-6 col-md-4 sectorTablas">
+            <!-- COLUMNA 1 -->
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Sueldo Básico:</label>
+                        <div class="col-sm-7">
+                              <input type="text" class="form-control" placeholder="$ .-" name="basNLS" id="basNLS" onkeypress="return valida(event)" onchange="prueba()" tabindex="1">
+                        </div>
+
+                  </div>
+                  
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Presentismo:
+                        	<input type="checkbox" name="presentismo" class="pres_sino" id="pres_sino" checked>
+                        </label>
+                        <div class="col-sm-3">
+						    <input type="text" class="form-control" placeholder="11 %" value="8.33" name="presentismo" id="presentismo" disabled>
+						</div>                    
+                        <div class="col-sm-4">
+                              <input type="text" class="form-control" value="0" name="preNLS" id="preNLS" onkeypress="return valida(event)" tabindex="1">
+                        </div>
+                  </div>
+
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Antigüedad:</label>
+                        <div class="col-sm-3">
+							<input type="number" min=0 max=100 class="form-control" placeholder="años" value="0" name="antiguedad" id="antiguedad">
+						</div>
+                        <div class="col-sm-4">
+                              <input type="text" class="form-control" value="0" name="antNLS" id="antNLS">
+                        </div>
+                  </div>
+      
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Sac:</label>
+                        <div class="col-sm-7">
+                              <input type="text" class="form-control" value="0" name="sacNLS" id="sacNLS" onkeypress="return valida(event)">
+                        </div>
+                  </div>
+      
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Vacaciones NG:</label>
+                        <div class="col-sm-7">
+                              <input type="text" class="form-control" value=0 name="vacNLS" id="vacNLS" onkeypress="return valida(event)">
+                        </div>
+                  </div>
+                  
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Horas Extras:</label>
+                        <div class="col-sm-7">
+                              <input type="text" class="form-control" value=0 name="hexNLS" id="hexNLS" onkeypress="return valida(event)">
+                        </div>
+
+                  </div>
+                  
+                  
+            <!-- FIN COLUMNA 1 -->
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-4 sectorTablas">
+            <!-- COLUMNA 2 -->
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Jubilación:</label>
+                        <div class="col-sm-3">
+							<input type="text" class="form-control" placeholder="11 %" value="11" name="jubilacion" id="jubilacion" disabled>
+						</div>
+                        <div class="col-sm-4">
+                              <input type="text" class="form-control" value=0 name="jubNLS" id="jubNLS">
+                        </div>
+
+                  </div>
+                  
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Obra Social:</label>
+                        <div class="col-sm-3">
+							<input type="text" class="form-control" placeholder="3 %" value="3" name="obrasocial" id="obrasocial" disabled>
+						</div>
+                        <div class="col-sm-4">
+                              <input type="text" class="form-control" value=0 name="obsNLS" id="obsNLS">
+                        </div>
+                  </div>
+     
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">AFIP:</label>
+                        <div class="col-sm-7">
+                              <input type="text" class="form-control" value=0 name="afiNLS" id="afiNLS" onkeypress="return valida(event)">
+                        </div>
+                  </div>
+      
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Suterh:</label>
+                        <div class="col-sm-7">
+                              <input type="text" class="form-control" value=0 name="suhNLS" id="suhNLS" onkeypress="return valida(event)">
+                        </div>
+                  </div>
+                  
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Fateryh:</label>
+                        <div class="col-sm-7">
+                              <input type="text" class="form-control" value=0 name="fahNLS" id="fahNLS" onkeypress="return valida(event)">
+                        </div>
+                  </div>
+                  
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Seracarh:</label>
+                        <div class="col-sm-7">
+                              <input type="text" class="form-control" value=0 name="sehNLS" id="sehNLS" onkeypress="return valida(event)">
+                        </div>
+                  </div>
+            <!-- FIN COLUMNA 2 -->
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-4 sectorTablas">
+            <!-- COLUMNA 3 -->
+            
+				  <div class="form-group">
+                        <label class="control-label col-sm-5">ART:</label>
+                        <div class="col-sm-7">
+                              <input type="text" class="form-control" value=0 name="artNLS" id="artNLS" onkeypress="return valida(event)">
+                        </div>
+                  </div>
+				  
+				  <div class="form-group">
+                        <label class="control-label col-sm-5">Imp. Ganancias:</label>
+                        <div class="col-sm-7">
+                              <input type="text" class="form-control" value=0 name="ganNLS" id="ganNLS" onkeypress="return valida(event)">
+                        </div>
+                  </div>
+                  
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Otros Descuentos:</label>
+                        <div class="col-sm-7">
+                              <input type="text" class="form-control" value=0 name="odeNLS" id="odeNLS" onkeypress="return prueba(event)">
+                        </div>
+
+                  </div>
+                  
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Total Bruto:</label>
+                        <div class="col-sm-7">
+                              <input type="text" class="form-control" placeholder="$ .-" name="totBruNLS" id="totBruNLS">
+                        </div>
+                  </div>
+                  
+                  <div class="form-group">
+                        <label class="control-label col-sm-5">Total Neto:</label>
+                        <div class="col-sm-7">
+                              <input type="text" class="form-control" placeholder="$ .-" name="totNetNLS" id="totNetNLS">
+                        </div>
+                  </div>
+
+                  <div class="form-group">
+	                  <div class="col-sm-offset-5 col-sm-7">
+	                        <button type="submit" class="form-control btn btn-warning">Cargar</button><br><br>
+	                  </div>
+	              </div>
+            <!-- FIN COLUMNA 3 -->
+            </div>
+      
+
+      </div> <!-- ROW 2 -->
+      
+      </form>
+
+
+</div> <!-- CONTAINER -->
+
+<script>
+
+function valida(e){
+
+    tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==8){
+        return true;
+    }
+
+	if (tecla==0) return true;
+	
+    // Patron de entrada, en este caso solo acepta numeros
+    //patron =/[0-9]/; // DE O A 9
+    patron =/[0-9-.-9]/; // DE 0 A 9 con PUNTO
+    tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+}
+
+
+/////// INICIO FORMULARIO NEW LIQ SUELDO ///////
+$('#NuevaLiquidacionSueldo').submit(function(){
+		
+		if( ($("#mes").val()=="*") || ($("#anio").val()=="*") || ($("#selectEdif").val()=="*") || ($("#selectEmple").val()=="*") ){
+			alert("AAAAAAA");
+			return false;
+		}
+		
+		if(!$.isNumeric($("#basNLS").val())){
+			$("#basNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#basNLS").focus();
+			return false;
+		}
+		
+		if(!$.isNumeric($("#antNLS").val())){
+			$("#antNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#antNLS").focus();
+			return false;
+		}
+		
+		if(!$.isNumeric($("#sacNLS").val())){
+			$("#sacNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#sacNLS").focus();
+			return false;
+		}
+		
+		if(!$.isNumeric($("#vacNLS").val())){
+			$("#vacNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#vacNLS").focus();
+			return false;
+		}
+		
+		if(!$.isNumeric($("#hexNLS").val())){
+			$("#hexNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#hexNLS").focus();
+			return false;
+		}
+		
+		if(!$.isNumeric($("#jubNLS").val())){
+			$("#jubNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#jubNLS").focus();
+			return false;
+		}
+		
+		if(!$.isNumeric($("#obsNLS").val())){
+			$("#obsNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#obsNLS").focus();
+			return false;
+		}
+		
+		if(!$.isNumeric($("#afiNLS").val())){
+			$("#afiNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#afiNLS").focus();
+			return false;
+		}
+		
+		if(!$.isNumeric($("#suhNLS").val())){
+			$("#suhNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#suhNLS").focus();
+			return false;
+		}
+		
+		if(!$.isNumeric($("#fahNLS").val())){
+			$("#fahNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#fahNLS").focus();
+			return false;
+		}
+		
+		if(!$.isNumeric($("#sehNLS").val())){
+			$("#sehNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#sehNLS").focus();
+			return false;
+		}
+		
+		if(!$.isNumeric($("#artNLS").val())){
+			$("#artNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#artNLS").focus();
+			return false;
+		}
+		
+		if(!$.isNumeric($("#ganNLS").val())){
+			$("#ganNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#ganNLS").focus();
+			return false;
+		}
+		
+		if(!$.isNumeric($("#odeNLS").val())){
+			$("#odeNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#odeNLS").focus();
+			return false;
+		}
+		
+		if(!$.isNumeric($("#totBruNLS").val())){
+			$("#totBruNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#totBruNLS").focus();
+			return false;
+		}
+		
+		if(!$.isNumeric($("#totNetNLS").val())){
+			$("#totNetNLS").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+			$("#totNetNLS").focus();
+			return false;
+		}
+
+
+}); /////// FIN FORMULARIO NEW LIQ SUELDO ///////
+
+// A FAVOR
+var basico;
+var anti_tot;
+var pres_tot;
+var sac;
+var vac;
+var hex;
+
+// NEGATIVO
+var jubi_tot;
+var obsoc_tot;
+var afip;
+var suter;
+var fater;
+var serac;
+var art;
+var img;
+var otd;
+
+// TOTALES
+var total_bruto;
+var total_negativo;
+var total_neto;
+
+
+$("#basNLS").change(function() {
+
+	// ANTIGUEDAD
+	basico = $("#basNLS").val();
+	var anti_multi = $("#antiguedad").val();
+	anti_tot = (basico * anti_multi)/100;
+	$('#antNLS').val(anti_tot);
+	
+	// JUBILACION
+	var jubi_multi = $("#jubilacion").val();
+	jubi_tot = (basico * jubi_multi)/100;
+	$('#jubNLS').val(jubi_tot);
+	
+	// OBRA SOCIAL
+	var obso_multi = $('#obrasocial').val();
+	obsoc_tot = (basico * obso_multi)/100;
+	$('#obsNLS').val(obsoc_tot);
+	
+	// PRESENTISMO
+  	var presen = parseFloat(anti_tot) + parseFloat(basico);
+  	var pres_multi = $("#presentismo").val();
+  	pres_tot = (presen * pres_multi)/100;
+  	$('#preNLS').val(pres_tot);
+  	
+  	sac = $("#sacNLS").val();
+  	vac = $("#vacNLS").val();
+  	hex = $("#hexNLS").val();
+  	total_bruto = parseFloat(basico) + parseFloat(anti_tot) + parseFloat(pres_tot) + parseFloat(sac) + parseFloat(vac) + parseFloat(hex);
+  	$('#totBruNLS').val(total_bruto);
+  	
+});
+
+$("#antiguedad").change(function() {
+
+  	// ANTIGUEDAD
+	basico = $("#basNLS").val();
+	var anti_multi = $("#antiguedad").val();
+	anti_tot = (basico * anti_multi)/100;
+	$('#antNLS').val(anti_tot);
+  
+  	// PRESENTISMO
+  	var presen = parseFloat(anti_tot) + parseFloat(basico);
+  	var pres_multi = $("#presentismo").val();
+  	pres_tot = (presen * pres_multi)/100;
+  	$('#preNLS').val(pres_tot);
+  	
+  	sac = $("#sacNLS").val();
+  	vac = $("#vacNLS").val();
+  	hex = $("#hexNLS").val();
+  	total_bruto = parseFloat(basico) + parseFloat(anti_tot) + parseFloat(pres_tot) + parseFloat(sac) + parseFloat(vac) + parseFloat(hex);
+  	$('#totBruNLS').val(total_bruto);
+  
+});
+
+$("#pres_sino").change(function() {
+
+  	basico = $("#basNLS").val();
+	var anti_multi = $("#antiguedad").val();
+	var pres = (basico * anti_multi) + basico;
+	var pres_multi = $("#presentismo").val();
+ 	pres_tot = (pres * pres_multi);
+ 	$('#preNLS').val(total);
+ 	
+ 	sac = $("#sacNLS").val();
+  	vac = $("#vacNLS").val();
+  	hex = $("#hexNLS").val();
+  	total_bruto = parseFloat(basico) + parseFloat(anti_tot) + parseFloat(pres_tot) + parseFloat(sac) + parseFloat(vac) + parseFloat(hex);
+  	$('#totBruNLS').val(total_bruto);
+ 	 
+});
+
+$("#sacNLS").change(function() {
+
+ 	sac = $("#sacNLS").val();
+  	vac = $("#vacNLS").val();
+  	hex = $("#hexNLS").val();
+  	total_bruto = parseFloat(basico) + parseFloat(anti_tot) + parseFloat(pres_tot) + parseFloat(sac) + parseFloat(vac) + parseFloat(hex);
+  	$('#totBruNLS').val(total_bruto);
+ 	 
+});
+
+$("#vacNLS").change(function() {
+
+ 	sac = $("#sacNLS").val();
+  	vac = $("#vacNLS").val();
+  	hex = $("#hexNLS").val();
+  	total_bruto = parseFloat(basico) + parseFloat(anti_tot) + parseFloat(pres_tot) + parseFloat(sac) + parseFloat(vac) + parseFloat(hex);
+  	$('#totBruNLS').val(total_bruto);
+ 	 
+});
+
+$("#hexNLS").change(function() {
+
+ 	sac = $("#sacNLS").val();
+  	vac = $("#vacNLS").val();
+  	hex = $("#hexNLS").val();
+  	total_bruto = parseFloat(basico) + parseFloat(anti_tot) + parseFloat(pres_tot) + parseFloat(sac) + parseFloat(vac) + parseFloat(hex);
+  	$('#totBruNLS').val(total_bruto);
+ 	 
+});
+
+function suma_negativo(){
+
+	jubi_tot = $("#jubNLS").val();
+	obsoc_tot = $("#obsNLS").val();
+	afip = $("#afiNLS").val();
+	suter = $("#suhNLS").val();
+	fater = $("#fahNLS").val();
+	serac = $("#sehNLS").val();
+	art = $("#artNLS").val();
+	img = $("#ganNLS").val(); 
+	otd = $("#odeNLS").val();
+
+  	total_negativo = parseFloat(jubi_tot) + parseFloat(obsoc_tot) + parseFloat(afip) + parseFloat(suter) + parseFloat(fater) + parseFloat(serac) + parseFloat(art) + parseFloat(img) + parseFloat(otd);
+  	total_neto = total_bruto - total_negativo;
+  	$('#totNetNLS').val(total_neto);
+
+}
+
+$("#afiNLS").change(function() {
+	suma_negativo();
+});
+
+$("#suhNLS").change(function() {
+	suma_negativo();
+});
+
+$("#fahNLS").change(function() {
+	suma_negativo();
+});
+
+$("#sehNLS").change(function() {
+	suma_negativo();
+});
+
+$("#artNLS").change(function() {
+	suma_negativo();
+});
+
+$("#ganNLS").change(function() {
+	suma_negativo();
+});
+
+$("#odeNLS").change(function() {
+	suma_negativo();
+});
+
+</script>
+
+
+</body>
+
+</@layout.myLayout>

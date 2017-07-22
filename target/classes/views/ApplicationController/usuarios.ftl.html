@@ -1,0 +1,249 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+
+
+<body>
+
+
+
+<div class="container">
+	<div class="row main">
+	<div class="col-md-12 sectorTablas">
+
+			<h3>Listado de Usuarios:</h3>
+
+				<#if accion=="Cargar">
+					<form action="/NuevoUsuario" method="POST" class="form-horizontal" id="formNewUser">
+				<#else>
+					<form action="/editarUsuario" method="POST" class="form-horizontal" id="formNewUser">
+				</#if>
+
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="form-group">
+							<label class="control-label col-sm-6">Nombre:</label>
+							<div class="col-sm-6">
+							<input type="text" id="Unom" name="Unom" value="${nombre}" class="form-control" tabindex=1>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="form-group">
+							<label class="control-label col-sm-6">Dirección:</label>
+							<div class="col-sm-6">
+							<input type="text" id="Udir" name="Udir" value="${direccion}" class="form-control" tabindex=4>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="form-group">
+							<label class="control-label col-sm-6">Username:</label>
+							<div class="col-sm-6">
+							<input type="text" id="Uuse" name="Uuse" value="${userna}" class="form-control" tabindex=7 <#if accion=="Editar">readonly</#if>>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="form-group">
+							<label class="control-label col-sm-6">Apellido:</label>
+							<div class="col-sm-6">
+							<input type="text" id="Uape" name="Uape" value="${apellido}" class="form-control" tabindex=2>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="form-group">
+							<label class="control-label col-sm-6">Teléfono:</label>
+							<div class="col-sm-6">
+							<input type="text" id="Utel" name="Utel" value="${telefono}" class="form-control" tabindex=5>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="form-group">
+							<label class="control-label col-sm-6">Contraseña:</label>
+							<div class="col-sm-6">
+							<input type=
+							<#if accion=="Cargar">
+								"text"
+							<#else>
+								"password"
+							</#if>
+								id="Upass" name="Upass" value="${contras}" class="form-control" tabindex=8>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="form-group">
+							<label class="control-label col-sm-6">DNI:</label>
+							<div class="col-sm-6">
+							<input type="text" id="Udni" name="Udni" value="${dni}" class="form-control" tabindex=3>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="form-group">
+							<label class="control-label col-sm-6">Email:</label>
+							<div class="col-sm-6">
+							<input type="text" id="Uema" name="Uema" value="${email}" class="form-control" tabindex=6>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="form-group">
+						<label class="control-label col-sm-6">Categoria:</label>
+						<div class="col-sm-6">
+							<select name="Ucate" id="Ucate" style="width: 166px; height: 30px;" tabindex=9>
+								<option <#if cate==""> selected="selected"</#if> value="*">Seleccione...</option>
+								<option <#if cate=="A"> selected="selected"</#if> value="A">A</option>
+								<option <#if cate=="B"> selected="selected"</#if> value="B">B</option>
+								<option <#if cate=="C"> selected="selected"</#if> value="C">C</option>
+							</select>
+						</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="form-group">
+							<label class="control-label col-sm-6"></label>
+							<div class="col-sm-6">
+								<input type="hidden" class="form-control" value="${id}" name="id" id="id">
+								<input type="hidden" class="form-control" value="${accion}" name="accion" id="accion">
+								<button type="submit" class="btn btn-success"  style="width: 166px; height: 35px;" tabindex=9>${accion}</button>
+							</div>
+						</div>
+					</div>
+
+
+
+				</form>
+
+				<div class="dataTables_scroll">
+				<div style="overflow: auto; width: 100%; min-height: 400px; max-height: 600px;" class="dataTables_scrollBody">
+				<table class="table table-bordered table-hover">
+
+					<tr class="warning">
+						<th>Nombre</th>
+						<th>Apellido</th>
+						<th>DNI</th>
+						<th>Dirección</th>
+						<th>Telefono</th>
+						<th>Email</th>
+						<th>Username</th>
+						<th>Categoria</th>
+						<th></th>
+					</tr>
+					<#list usuarios as user>
+					<tr>
+						<th>${user.getNom_usuario()}</th>
+						<th>${user.getApe_usuario()}</th>
+						<th>${user.getDni_usuario()}</th>
+						<th>${user.getDire_usuario()}</th>
+						<th>${user.getTel_usuario()}</th>
+						<th>${user.getEmail_usuario()}</th>
+						<th>${user.getUsername()}</th>
+						<th>${user.getCate_usuario()}</th>
+						<th>
+							<form action=
+							<#if categoria=="B">"#"<#else>"/edit_usuarios"</#if>
+							<#if categoria=="C">"#"<#else>"/usuarios"</#if>
+							 method="POST" class="form-horizontal" id="formNewUser"><input type="hidden" name="id" id="id" value="${user.getId_usuario()}" ><button type="submit" class="btn btn-default" >Editar</button></form>
+						</th>
+					</#list>
+					</tr>
+
+
+
+
+				</table>
+				</div>
+				</div>
+
+
+			</div>
+	</div>
+</div>
+
+<script>
+
+function valida(e){
+    tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==8){
+        return true;
+    }
+
+    if (tecla==0) return true;
+
+    // Patron de entrada, en este caso solo acepta numeros
+    //patron =/[0-9]/; // DE O A 9
+    patron =/[0-9-.]/; // DE 0 A 9 con PUNTO
+    tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+}
+
+$('#formNewUser').submit(function(){
+
+	if($('#Unom').val().length < 1){
+		$("#Unom").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#Unom").focus();
+		return false;
+	}
+
+	if($('#Uape').val().length < 1){
+		$("#Uape").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#Uape").focus();
+		return false;
+	}
+
+	if($('#Udni').val().length < 1){
+		$("#Udni").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#Udni").focus();
+		return false;
+	}
+
+	if($('#Udir').val().length < 1){
+		$("#Udir").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#Udir").focus();
+		return false;
+	}
+
+	if($('#Utel').val().length < 1){
+		$("#Utel").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#Utel").focus();
+		return false;
+	}
+
+	if($('#Uema').val().length < 1){
+		$("#Uema").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#Uema").focus();
+		return false;
+	}
+
+	if($('#Uuse').val().length < 1){
+		$("#Uuse").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#Uuse").focus();
+		return false;
+	}
+
+	if($('#Upass').val().length < 1){
+		$("#Upass").css({'border-color':'#e9322d', '-webkit-box-shadow':' 0 0 6px #f8b9b7', '-moz-box-shadow':' 0 0 6px #f8b9b7','box-shadow':'0 0 6px #f8b9b7'});
+		$("#Upass").focus();
+		return false;
+	}
+
+	if($('#Ucate').val()=="*"){
+		$("#Ucate").focus();
+		return false;
+	}
+
+
+
+
+});
+
+</script>
+
+
+</body>
+
+</@layout.myLayout>

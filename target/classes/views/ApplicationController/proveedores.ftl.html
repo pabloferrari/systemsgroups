@@ -1,0 +1,59 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+
+
+<body class="">
+
+
+<div class="container">
+	<div class="row main">
+	<div class="col-xs-12 sectorTablas">
+	<!-- Proveedores -->
+		<h3>Proveedores:</h3>
+			<div class="dataTables_scroll">
+			<div style="overflow: auto; width: 100%; max-height: 600px;" class="dataTables_scrollBody">
+			<table class="table table-bordered table-hover">
+				<tr class="warning">
+					<th nowrap>Nombre</th>
+					<th nowrap>CUIT</th>
+					<th nowrap>Tipo</th>
+					<th nowrap>Detalle</th>
+					<th nowrap>Direccion</th>
+					<th nowrap>Telefono</th>
+					<th nowrap>Celular</th>
+					<th nowrap>Mail</th>
+					<th nowrap></th>
+				</tr>
+				<#list proveedores as proveedor>
+				<tr>
+						<th nowrap>${proveedor.getNombre_prov()}</th>
+						<th nowrap>${proveedor.getCUIT_prov()}</th>
+						<th nowrap>${proveedor.getTipo_prov()}</th>
+						<th nowrap>${proveedor.getDetalle_prov()}</th>
+						<th nowrap>${proveedor.getDire_prov()}</th>
+						<th nowrap>${proveedor.getTel_prov()}</th>
+						<th nowrap>${proveedor.getCel_prov()}</th>
+						<th nowrap>${proveedor.getEmail_prov()}</th>
+						<th nowrap>
+						<form action="mailto:${proveedor.email_prov}?subject=Consulta" method="post" enctype="text/plain"><input type="submit" class="btn btn-warning" value="Contactar">
+						</form></th>
+
+				</tr>
+				</#list>
+
+
+			</table>
+			</div>
+			</div> <!-- fin dataTables_scroll -->
+
+	</div>
+	</div>
+
+</div>
+
+
+
+
+</body>
+
+</@layout.myLayout>

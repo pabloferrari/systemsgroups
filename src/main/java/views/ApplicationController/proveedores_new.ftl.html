@@ -1,0 +1,200 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+
+
+<body class="">
+
+<div class="container main">
+
+	<hr>
+	<h4>Ingresar Nuevo Proveedor: </h4>
+
+	<hr>
+	<div class="row ">
+
+		<form action="/NuevoProveedor" method="POST" class="form-horizontal" id="formProveedorNew">
+
+		<div class="col-xs-12 col-md-6 sectorTablas">
+		<!-- DATOS DE LA PERSONA -->
+				
+
+				<div class="form-group">
+					<label class="control-label col-sm-4">Nombre:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Nombre" name="nomNPr" id="nomNPr">
+						<label class="mensajeAlerta" id="llenarNom"></label>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">CUIT:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="XX-XXXXXXXX-X" name="cuitNPr" id="cuitNPr">
+						<label class="mensajeAlerta" id="llenarCuit"></label>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Tipo:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Tipo" name="tipNPr" id="tipNPr">
+						<label class="mensajeAlerta" id="llenarTip"></label>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Detalle:</label>
+					<div class="col-sm-6">
+						<textarea type="text" maxlength="150" class="form-control" placeholder="Detalle" name="detNPr" id="detNPr"></textarea>
+						<label class="mensajeAlerta" id="llenarDet"></label>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+
+		</div>
+
+		<div class="col-xs-12 col-md-6 sectorTablas">
+		<!-- DATOS DEL EDIFICIO -->
+
+				<div class="form-group">
+					<label class="control-label col-sm-4">Dirección:</label>
+					<div class="col-sm-6">
+						<input type="text" maxlength="50" class="form-control"placeholder="Dirección"  name="dirNPr" id="dirNPr">
+						<label class="mensajeAlerta" id="llenarDir"></label>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Teléfono:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Teléfono" name="telNPr" id="telNPr">
+						<label class="mensajeAlerta" id="llenarTel"></label>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Celular:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Celular" name="celNPr" id="celNPr">
+						<label class="mensajeAlerta" id="llenarCel"></label>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4">Email:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="Email" name="emaNPr" id="emaNPr">
+						<label class="mensajeAlerta" id="llenarEma"></label>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+
+		</div>
+
+
+
+				<div class="form-group">
+					<label class="control-label col-sm-2"></label>
+					<div class="col-sm-offset-2 col-sm-4">
+
+						<button type="submit" class="btn btn-warning">Cargar</button><br><br>
+					</div>
+				</div>
+
+		</div>
+		</form>
+
+	</div>
+
+</div>
+
+<script>
+function valida(e){
+    tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==8){
+        return true;
+    }
+    
+    if (tecla==0) return true;
+    
+
+    // Patron de entrada, en este caso solo acepta numeros
+    //patron =/[0-9]/; // DE O A 9
+    patron =/[0-9-.-9]/; // DE 0 A 9 con PUNTO
+    tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+}
+
+////// INICIO FORMULARIO NUEVO PROVEEDOR ///////
+$('#formProveedorNew').submit(function(){
+
+	if($('#nomNPr').val().length < 1){
+		$('#llenarNom').text("[Ingrese el nombre]");
+		return false;
+	} else {
+		$('#llenarNom').text("");
+		var a = 1;
+	}
+
+	if($('#cuitNPr').val().length < 1){
+		$('#llenarCuit').text("[Ingrese el CUIT]");
+		return false;
+	} else {
+		$('#llenarCuit').text("");
+		a++;
+	}
+	
+	if($('#tipNPr').val().length < 1){
+		$('#llenarTip').text("[Ingrese el Tipo]");
+		return false;
+	} else {
+		$('#llenarTip').text("");
+		a++;
+	}
+
+	if($('#detNPr').val().length < 1){
+		$('#llenarDet').text("[Ingrese el detalle del servicio]");
+		return false;
+	} else {
+		$('#llenarDet').text("");
+		a++;
+	}
+
+	if($('#dirNPr').val().length < 1){
+		$('#llenarDir').text("[Ingrese la direccion]");
+		return false;
+	} else {
+		$('#llenarDir').text("");
+		a++;
+	}
+
+	if($('#telNPr').val().length < 1){
+		$('#llenarTel').text("[Ingrese el teléfono]");
+		return false;
+	} else {
+		$('#llenarTel').text("");
+		a++;
+	}
+
+	if($('#emaNPr').val().length < 1){
+		$('#llenarEma').text("[Ingrese el email]");
+		return false;
+	} else {
+		$('#llenarEma').text("");
+		a++;
+	}
+
+	if ((a == 7) && ($('#selectProv').val() != "*")){
+		alert("El Proveedor ha sido cargado correctamente");
+	}
+
+}); ////// FIN FORMULARIO NUEVO PROVEEDOR ///////
+
+</script>
+
+
+</body>
+
+</@layout.myLayout>
